@@ -12,7 +12,6 @@
         //private string profilePictureUrl; 
         //private string bio; 
         private DateTime birthday;
-        private string token;
 
         public int UserId { get => userId;}
         public string Username { get => username; set => username = value; }
@@ -24,7 +23,6 @@
         public DateTime Birthday { get => birthday; set => birthday = value; }
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
-        public string Token { get => token; set => token = value; }
 
 
         public string RegisterUser()

@@ -30,6 +30,22 @@ namespace woofr.Controllers
             return u.RegisterUser();
         }
 
+        [HttpPost]
+        [Route("UserLogIn/{email}/{password}")]
+        public ActionResult UserLogIn(string email, string password)
+        {
+            try
+            {
+                User u = new User();
+                return Ok(u.LogIn(email, password));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+
         // PUT api/<UsersController>/5
         [HttpPut("UploadImage/{id}")]
         public bool UploadImage(int id, [FromBody] string image)

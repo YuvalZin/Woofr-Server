@@ -40,7 +40,13 @@
             return false;
         }
 
-        
+        public string LogIn(string email, string password)
+        {
+            DBservices dbs = new DBservices();
+            string token = dbs.LogIn(email, password);
+            if (token == null) throw new Exception("We couldn't find an account with the email and password you provided. Please check your details and try again.");
+            else return token;
+        }
 
         //public DateTime RegistrationDate { get; set; }
         //public DateTime LastLoginDate { get; set; }

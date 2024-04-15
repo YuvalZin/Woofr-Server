@@ -191,6 +191,71 @@ public class DBservices
     //    }
 
     //}
+
+
+    //--------------------------------------------------------------------------------------------------
+    // This method log in a user
+    //--------------------------------------------------------------------------------------------------
+    public string LogIn(string email, string password)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@email", email);
+        paramDic.Add("@password", password);
+
+
+        cmd = CreateCommandWithStoredProcedure("SP_LoginUser", con, paramDic);             // create the command
+        var returnParameter = cmd.Parameters.Add("@returnValue", SqlDbType.Int);
+
+        returnParameter.Direction = ParameterDirection.ReturnValue;
+
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            if (!dataReader.HasRows)
+            {
+                return null;
+            }
+            string token ="";
+            while (dataReader.Read())
+            {
+                token = dataReader["Token"].ToString();
+            }
+            return token;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+            // note that the return value appears only after closing the connection
+            var result = returnParameter.Value;
+        }
+
+    }
+
     //--------------------------------------------------------------------------------------------------
     // This method update a user to the user table 
     //--------------------------------------------------------------------------------------------------

@@ -25,7 +25,7 @@ namespace woofr.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public int Post([FromBody] User u)
+        public string Post([FromBody] User u)
         {
             return u.RegisterUser();
         }

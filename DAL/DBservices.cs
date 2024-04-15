@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Text;
 using woofr.Models;
+using System.Security.Cryptography;
 
 
 /// <summary>
@@ -19,6 +20,26 @@ public class DBservices
         //
         // TODO: Add constructor logic here
         //
+    
+    }
+    //--------------------------------------------------------------------------------------------------
+    // This method creates a token for the session over the application that is unique for a user. 
+    //--------------------------------------------------------------------------------------------------
+    public static string GenerateToken(string input)
+    {
+        using (SHA256 sha256Hash = SHA256.Create())
+        {
+            // ComputeHash - returns byte array
+            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            // Convert byte array to a string
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                builder.Append(bytes[i].ToString("x2")); // Convert byte to hexadecimal string
+            }
+            return builder.ToString();
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -218,7 +239,7 @@ public class DBservices
     //--------------------------------------------------------------------------------------------------
     // This method Inserts a user to the user table 
     //--------------------------------------------------------------------------------------------------
-    public int RegisterUser(User user)
+    public string RegisterUser(User user)
     {
 
         SqlConnection con;
@@ -245,14 +266,21 @@ public class DBservices
         //paramDic.Add("@BioDescription", user.Bio);
         //paramDic.Add("@ProfilePicture", user.ProfilePictureUrl);
         paramDic.Add("@Gender", user.Gender);
+        // Generate token and ensure it doesn't exceed 250 characters
+        string token = GenerateToken(user.Username + user.Email); // Example: Concatenate username and email
+        if (token.Length > 250)
+        {
+            token = token.Substring(0, 250); // Trim token to 250 characters if necessary
+        }
+        paramDic.Add("@Token", token);
 
         cmd = CreateCommandWithStoredProcedure("SP_RegisterUser", con, paramDic);  // create the command
 
         try
         {
-            //int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
-            return numEffected;
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+            return token;
         }
         catch (Exception ex)
         {

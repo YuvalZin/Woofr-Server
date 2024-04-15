@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Nevo Avisar\\source\\repos\\woofr\\woofr\\woofr.csproj": {}
+    "C:\\Program Files (x86)\\GitHub\\Woofr-Server\\woofr.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nevo Avisar\\source\\repos\\woofr\\woofr\\woofr.csproj": {
+    "C:\\Program Files (x86)\\GitHub\\Woofr-Server\\woofr.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nevo Avisar\\source\\repos\\woofr\\woofr\\woofr.csproj",
+        "projectUniqueName": "C:\\Program Files (x86)\\GitHub\\Woofr-Server\\woofr.csproj",
         "projectName": "woofr",
-        "projectPath": "C:\\Users\\Nevo Avisar\\source\\repos\\woofr\\woofr\\woofr.csproj",
-        "packagesPath": "C:\\Users\\Nevo Avisar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nevo Avisar\\source\\repos\\woofr\\woofr\\obj\\",
+        "projectPath": "C:\\Program Files (x86)\\GitHub\\Woofr-Server\\woofr.csproj",
+        "packagesPath": "C:\\Users\\zindani\\.nuget\\packages\\",
+        "outputPath": "C:\\Program Files (x86)\\GitHub\\Woofr-Server\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Nevo Avisar\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\zindani\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -63,7 +59,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -75,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

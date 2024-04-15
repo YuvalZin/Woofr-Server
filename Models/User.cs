@@ -12,6 +12,7 @@
         //private string profilePictureUrl; 
         //private string bio; 
         private DateTime birthday;
+        private string token;
 
         public int UserId { get => userId;}
         public string Username { get => username; set => username = value; }
@@ -23,13 +24,15 @@
         public DateTime Birthday { get => birthday; set => birthday = value; }
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
+        public string Token { get => token; set => token = value; }
 
-        public int RegisterUser()
+
+        public string RegisterUser()
         {
             DBservices dbs = new DBservices();
-            int u_id = dbs.RegisterUser(this);
-            if (u_id > 0) return u_id;
-            return -1;
+            string u_id = dbs.RegisterUser(this);
+            if (u_id != null) return u_id;
+            return "-1";
         }
         public bool UploadImage(int id, string image)
         {

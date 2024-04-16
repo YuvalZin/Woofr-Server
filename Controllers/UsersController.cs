@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using woofr.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -25,18 +26,25 @@ namespace woofr.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public string Post([FromBody] User u)
-        {
-            return u.RegisterUser();
-        }
-
-        [HttpPost]
-        [Route("UserLogIn/{email}/{password}")]
-        public ActionResult UserLogIn(string email, string password)
+        public ActionResult Post([FromBody] User u)
         {
             try
             {
-                User u = new User();
+                return Ok(u.RegisterUser());
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("UserLogIn/{email}")]
+        public ActionResult UserLogIn(string email, [FromBody] string password)
+        {
+            try
+            {
+                User u = new();
                 return Ok(u.LogIn(email, password));
             }
             catch (Exception e)
@@ -45,14 +53,15 @@ namespace woofr.Controllers
             }
         }
 
+        
 
-        // PUT api/<UsersController>/5
-        [HttpPut("UploadImage/{id}")]
-        public bool UploadImage(int id, [FromBody] string image)
-        {
-            User u = new();
-            return u.UploadImage(id, image);
-        }
+        //// PUT api/<UsersController>/5
+        //[HttpPut("UploadImage5/{token}")]
+        //public bool UploadImage5(string token, [FromBody] string image)
+        //{
+        //    User u = new();
+        //    return u.UploadImage(token, image);
+        //}
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]

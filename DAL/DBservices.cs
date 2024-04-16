@@ -259,7 +259,7 @@ public class DBservices
     //--------------------------------------------------------------------------------------------------
     // This method update a user to the user table 
     //--------------------------------------------------------------------------------------------------
-    public int UploadImage(int id, string image)
+    public int UploadImage(string token, byte[] image)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -278,8 +278,8 @@ public class DBservices
         cmd.CommandType = CommandType.StoredProcedure; // specify command type as stored procedure
 
         // Add parameters
-        cmd.Parameters.AddWithValue("@UserID", id);
-        cmd.Parameters.AddWithValue("@ImageBase64", image);
+        cmd.Parameters.AddWithValue("@Token", token);
+        cmd.Parameters.AddWithValue("@ImageData", image);
 
         try
         {

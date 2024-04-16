@@ -28,16 +28,17 @@
         public string RegisterUser()
         {
             DBservices dbs = new DBservices();
-            string u_id = dbs.RegisterUser(this);
-            if (u_id != null) return u_id;
-            return "-1";
+            string token = dbs.RegisterUser(this);
+            if (token == null) throw new Exception("We couldn't register an account with the email and password you provided. Please check your details and try again.");
+            else return token;
+            
         }
-        public bool UploadImage(int id, string image)
+        public int UploadImage(string token, byte[] image)
         {
+
             DBservices dbs = new DBservices();
-            int rowsAff = dbs.UploadImage(id,image);
-            if (rowsAff ==1 ) return true;
-            return false;
+            int rowsAff = dbs.UploadImage(token,image);
+            return rowsAff;
         }
 
         public string LogIn(string email, string password)

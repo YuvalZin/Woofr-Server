@@ -3,27 +3,26 @@
     public class User
     {
         private int userId; 
-        private string username;
         private string firstName;
         private string lastName;
         private string email;
         private string password; 
         private string gender;
-        //private string profilePictureUrl; 
+        private string profilePictureUrl;
         //private string bio; 
         private DateTime birthday;
+        private string token;
 
-        public int UserId { get => userId;}
-        public string Username { get => username; set => username = value; }
+        public int UserId { get => userId; set => userId = value; }
         public string Email { get => email; set => email = value; }
         public string Password { get => password; set => password = value; }
         public string Gender { get => gender; set => gender = value; }
-        //public string ProfilePictureUrl { get => profilePictureUrl; set => profilePictureUrl = value; }
+        public string ProfilePictureUrl { get => profilePictureUrl; set => profilePictureUrl = value; }
         //public string Bio { get => bio; set => bio = value; }
         public DateTime Birthday { get => birthday; set => birthday = value; }
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
-
+        public string Token { get => token; set => token = value; }
 
         public string RegisterUser()
         {
@@ -33,14 +32,15 @@
             else return token;
             
         }
-        public int UploadImage(string token, byte[] image)
+        public User UploadProfileImage(string email, string imageURL)
         {
 
             DBservices dbs = new DBservices();
-            int rowsAff = dbs.UploadImage(token,image);
-            return rowsAff;
+            User u = dbs.UploadImage(email,imageURL);
+            if (u == null) throw new Exception("Error uploading photo");
+            else return u;
         }
-
+      
         public string LogIn(string email, string password)
         {
             DBservices dbs = new DBservices();

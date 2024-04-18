@@ -259,7 +259,7 @@ public class DBservices
     //--------------------------------------------------------------------------------------------------
     // This method update a user to the user table 
     //--------------------------------------------------------------------------------------------------
-    public int UploadImage(string token, byte[] image)
+    public User UploadImage(string email, string imageURL)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -274,23 +274,47 @@ public class DBservices
             throw (ex);
         }
 
-        cmd = new SqlCommand("SP_UploadProfileImg", con); // create the command
-        cmd.CommandType = CommandType.StoredProcedure; // specify command type as stored procedure
 
-        // Add parameters
-        cmd.Parameters.AddWithValue("@Token", token);
-        cmd.Parameters.AddWithValue("@ImageData", image);
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@Email", email);
+        paramDic.Add("@ProfilePictureURL", imageURL);
+
+
+        cmd = CreateCommandWithStoredProcedure("SP_UpdateProfilePictureByEmail", con, paramDic);             // create the command
+        var returnParameter = cmd.Parameters.Add("@returnValue", SqlDbType.Int);
+
+        returnParameter.Direction = ParameterDirection.ReturnValue;
+
 
         try
         {
-            int result = Convert.ToInt32(cmd.ExecuteScalar()); // execute the command and get the result
-            return result; // return the result to indicate success or failure
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            if (!dataReader.HasRows)
+            {
+                return null;
+            }
+            User u = new();
+            while (dataReader.Read())
+            {
+                u.UserId = Convert.ToInt32(dataReader["UserID"]);
+                u.Email = dataReader["Email"].ToString();
+                u.Password = dataReader["Password"].ToString();
+                u.FirstName = dataReader["FirstName"].ToString();
+                u.LastName = dataReader["LastName"].ToString();
+                u.ProfilePictureUrl = dataReader["ProfilePicture"].ToString();
+                //u.BioDescription = dataReader["BioDescription"].ToString();
+                u.Birthday = Convert.ToDateTime(dataReader["BirthDate"]);
+                u.Gender = dataReader["Gender"].ToString();
+                u.Token = dataReader["Token"].ToString();
+            }
+            return u;
         }
         catch (Exception ex)
         {
             // write to log
             throw (ex);
         }
+
         finally
         {
             if (con != null)
@@ -298,9 +322,11 @@ public class DBservices
                 // close the db connection
                 con.Close();
             }
+            // note that the return value appears only after closing the connection
+            var result = returnParameter.Value;
         }
-    }
 
+    }
     //--------------------------------------------------------------------------------------------------
     // This method Inserts a user to the user table 
     //--------------------------------------------------------------------------------------------------
@@ -322,17 +348,15 @@ public class DBservices
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
 
-        paramDic.Add("@Username", user.Username);
         paramDic.Add("@Email", user.Email);
         paramDic.Add("@Password", user.Password);
         paramDic.Add("@FirstName", user.FirstName);
         paramDic.Add("@LastName", user.LastName);
         paramDic.Add("@BirthDate", user.Birthday);
         //paramDic.Add("@BioDescription", user.Bio);
-        //paramDic.Add("@ProfilePicture", user.ProfilePictureUrl);
         paramDic.Add("@Gender", user.Gender);
         // Generate token and ensure it doesn't exceed 250 characters
-        string token = GenerateToken(user.Username + user.Email); // Example: Concatenate username and email
+        string token = GenerateToken(user.LastName + user.Email); // Example: Concatenate last name and email
         if (token.Length > 250)
         {
             token = token.Substring(0, 250); // Trim token to 250 characters if necessary

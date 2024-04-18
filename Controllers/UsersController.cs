@@ -53,40 +53,23 @@ namespace woofr.Controllers
             }
         }
 
-        // POST api/<UsersController>/UploadImage/{token}
         [HttpPost]
-        [Route("UploadImage/{token}")]
-        public ActionResult UploadImage(string token, IFormFile image)
+        [Route("UploadProfileImage")] // Endpoint without imageURL in the route
+        public ActionResult UploadProfileImage([FromForm] IFormCollection form)
         {
             try
             {
+                string email = form["email"];
+                string imageURL = form["imageURL"];
                 User u = new();
-                // Convert IFormFile to byte[]
-                byte[] imageData;
-                using (var memoryStream = new MemoryStream())
-                {
-                    image.CopyTo(memoryStream);
-                    imageData = memoryStream.ToArray();
-                }
-
-                // Call the UploadImage method in User class
-                int rowsAffected = u.UploadImage(token, imageData);
-
-                if (rowsAffected > 0)
-                {
-                    return Ok("Image uploaded successfully");
-                }
-                else
-                {
-                    return StatusCode(500, "Failed to upload image");
-                }
+                return Ok(u.UploadProfileImage(email,imageURL));
             }
             catch (Exception e)
             {
                 return StatusCode(500, e.Message);
             }
+           
         }
-
         //// PUT api/<UsersController>/5
         //[HttpPut("UploadImage5/{token}")]
         //public bool UploadImage5(string token, [FromBody] string image)

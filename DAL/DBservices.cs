@@ -255,6 +255,123 @@ public class DBservices
         }
 
     }
+    //--------------------------------------------------------------------------------------------------
+    // This method getting user followings count by token
+    //--------------------------------------------------------------------------------------------------
+    public string GetFollowCount(string token)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@Token", token);
+
+        cmd = CreateCommandWithStoredProcedure("SP_GetUserFollowData_ByToken", con, paramDic);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            string data = "error";
+
+            if (dataReader.Read())
+            {
+                data = dataReader["followCount"].ToString();
+                return data;
+            }
+            return data;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+     //--------------------------------------------------------------------------------------------------
+    // This method getting user  by token
+    //--------------------------------------------------------------------------------------------------
+    public User GetUser(string token)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@Token", token);
+
+        cmd = CreateCommandWithStoredProcedure("SP_GetUser_ByToken", con, paramDic);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            User u = new();
+
+            if (dataReader.Read())
+            {
+                u.UserId = Convert.ToInt32(dataReader["UserID"]);
+                u.Email = dataReader["Email"].ToString();
+                u.Password = dataReader["Password"].ToString();
+                u.FirstName = dataReader["FirstName"].ToString();
+                u.LastName = dataReader["LastName"].ToString();
+                u.ProfilePictureUrl = dataReader["ProfilePicture"].ToString();
+                //u.BioDescription = dataReader["BioDescription"].ToString();
+                u.Birthday = Convert.ToDateTime(dataReader["BirthDate"]);
+                u.Gender = dataReader["Gender"].ToString();
+                u.Token = dataReader["Token"].ToString();
+            }
+            return u;
+
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
 
     //--------------------------------------------------------------------------------------------------
     // This method update a user to the user table 
@@ -1108,68 +1225,7 @@ public class DBservices
 
     //}
 
-    //public Song GetSongById(int id)
-    //{
 
-    //    SqlConnection con;
-    //    SqlCommand cmd;
-
-    //    try
-    //    {
-    //        con = connect("myProjDB"); // create the connection
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        // write to log
-    //        throw (ex);
-    //    }
-
-    //    Dictionary<string, object> paramDic = new Dictionary<string, object>();
-    //    paramDic.Add("@id", id);
-
-    //    cmd = CreateCommandWithStoredProcedure("SP_GetSongByID", con, paramDic);             // create the command
-
-    //    try
-    //    {
-    //        SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-    //        Song s = new Song();
-
-    //        if (dataReader.Read())
-    //        {
-    //            s.Id = id;
-    //            s.Artist_id = Convert.ToInt32(dataReader["artist_id"]);
-    //            s.Album_id = Convert.ToInt32(dataReader["album_id"]);
-    //            s.Api_id = Convert.ToInt32(dataReader["api_id"]);
-    //            s.ArtistName = dataReader["Artist"].ToString();
-    //            s.Text = dataReader["Text"].ToString();
-    //            s.AppleM = dataReader["appleM"].ToString();
-    //            s.UTube = dataReader["uTube"].ToString();
-    //            s.AlbumName = dataReader["albumName"].ToString();
-    //            s.ImgUrl = dataReader["imgUrl"].ToString();
-    //            s.RealeaseDate = Convert.ToDateTime(dataReader["realeaseDate"]).Date;
-    //            s.SongName = dataReader["Song"].ToString();
-
-    //            return s;
-    //        }
-    //        return s;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        // write to log
-    //        throw (ex);
-    //    }
-
-    //    finally
-    //    {
-    //        if (con != null)
-    //        {
-    //            // close the db connection
-    //            con.Close();
-    //        }
-    //    }
-
-    //}
 
     //public Artist GetArtistByName(string name)
     //{

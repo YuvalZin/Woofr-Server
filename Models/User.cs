@@ -40,6 +40,21 @@
             if (u == null) throw new Exception("Error uploading photo");
             else return u;
         }
+       public string GetFollowCount(string token)
+        {
+            DBservices dbs = new DBservices();
+            string followData = dbs.GetFollowCount(token);
+            if (followData == null) throw new Exception("Error getting user data");
+            else return followData;
+        }
+
+        public User GetUser(string token)
+        {
+            DBservices dbs = new DBservices();
+            User userData = dbs.GetUser(token);
+            if (userData == null) throw new Exception("Error getting user data");
+            else return userData;
+        }
       
         public string LogIn(string email, string password)
         {

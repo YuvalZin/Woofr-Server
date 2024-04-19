@@ -17,6 +17,38 @@ namespace woofr.Controllers
             return new string[] { "value1", "value2" };
         }
 
+        // GET: api/<UsersController>
+        [HttpGet]
+        [Route("GetFollowCountByToken/{token}")]
+        public ActionResult GetFollowCountByToken(string token)
+        {
+            try
+            {
+                User u = new();
+                return Ok(u.GetFollowCount(token));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+        
+        // GET: api/<UsersController>
+        [HttpGet]
+        [Route("GetUserData/{token}")]
+        public ActionResult GetUserData(string token)
+        {
+            try
+            {
+                User u = new();
+                return Ok(u.GetUser(token));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
         public string Get(int id)

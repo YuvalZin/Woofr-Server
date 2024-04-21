@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using woofr.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -48,6 +47,21 @@ namespace woofr.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+         // GET: api/<UsersController>
+        [HttpGet]
+        [Route("SearchUsers/{keyword}")]
+        public ActionResult SearchUsers(string keyword)
+        {
+            try
+            {
+                User u = new();
+                return Ok(u.SearchUsers(keyword));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
@@ -55,6 +69,7 @@ namespace woofr.Controllers
         {
             return "value";
         }
+        
 
         // POST api/<UsersController>
         [HttpPost]
@@ -91,10 +106,10 @@ namespace woofr.Controllers
         {
             try
             {
-                string email = form["email"];
+                string id = form["id"];
                 string imageURL = form["imageURL"];
                 User u = new();
-                return Ok(u.UploadProfileImage(email,imageURL));
+                return Ok(u.UploadProfileImage(id,imageURL));
             }
             catch (Exception e)
             {

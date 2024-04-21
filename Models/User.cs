@@ -2,7 +2,7 @@
 {
     public class User
     {
-        private int userId; 
+        private string id; 
         private string firstName;
         private string lastName;
         private string email;
@@ -13,7 +13,7 @@
         private DateTime birthday;
         private string token;
 
-        public int UserId { get => userId; set => userId = value; }
+        public string Id { get => id; set => id = value; }
         public string Email { get => email; set => email = value; }
         public string Password { get => password; set => password = value; }
         public string Gender { get => gender; set => gender = value; }
@@ -32,11 +32,11 @@
             else return token;
             
         }
-        public User UploadProfileImage(string email, string imageURL)
+        public User UploadProfileImage(string id, string imageURL)
         {
 
             DBservices dbs = new DBservices();
-            User u = dbs.UploadImage(email,imageURL);
+            User u = dbs.UploadImage(id,imageURL);
             if (u == null) throw new Exception("Error uploading photo");
             else return u;
         }
@@ -48,6 +48,14 @@
             else return followData;
         }
 
+         public List<string> SearchUsers(string keyword)
+        {
+            DBservices dbs = new DBservices();
+            List<string> results = dbs.SearchUsers(keyword);
+            if (results == null) throw new Exception("Error finding search results");
+            else return results;
+        }
+
         public User GetUser(string token)
         {
             DBservices dbs = new DBservices();
@@ -55,6 +63,7 @@
             if (userData == null) throw new Exception("Error getting user data");
             else return userData;
         }
+
       
         public string LogIn(string email, string password)
         {

@@ -341,7 +341,69 @@ public class DBservices
 
             if (dataReader.Read())
             {
-                u.UserId = Convert.ToInt32(dataReader["UserID"]);
+                u.Email = dataReader["Email"].ToString();
+                u.Id = dataReader["Id"].ToString();
+                u.Password = dataReader["Password"].ToString();
+                u.FirstName = dataReader["FirstName"].ToString();
+                u.LastName = dataReader["LastName"].ToString();
+                u.ProfilePictureUrl = dataReader["ProfilePicture"].ToString();
+                //u.BioDescription = dataReader["BioDescription"].ToString();
+                u.Birthday = Convert.ToDateTime(dataReader["BirthDate"]);
+                u.Gender = dataReader["Gender"].ToString();
+                u.Token = dataReader["Token"].ToString();
+            }
+            return u;
+
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+      //--------------------------------------------------------------------------------------------------
+    // This method getting user id by token
+    //--------------------------------------------------------------------------------------------------
+    public User GetUserDbId(string token)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@Token", token);
+
+        cmd = CreateCommandWithStoredProcedure("SP_GetUser_ByToken", con, paramDic);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            User u = new();
+
+            if (dataReader.Read())
+            {
+                u.Id = dataReader["Id"].ToString();
                 u.Email = dataReader["Email"].ToString();
                 u.Password = dataReader["Password"].ToString();
                 u.FirstName = dataReader["FirstName"].ToString();
@@ -376,7 +438,7 @@ public class DBservices
     //--------------------------------------------------------------------------------------------------
     // This method update a user to the user table 
     //--------------------------------------------------------------------------------------------------
-    public User UploadImage(string email, string imageURL)
+    public User UploadImage(string id, string imageURL)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -393,11 +455,11 @@ public class DBservices
 
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@Email", email);
+        paramDic.Add("@Id", id);
         paramDic.Add("@ProfilePictureURL", imageURL);
 
 
-        cmd = CreateCommandWithStoredProcedure("SP_UpdateProfilePictureByEmail", con, paramDic);             // create the command
+        cmd = CreateCommandWithStoredProcedure("SP_UpdateProfilePicture", con, paramDic);             // create the command
         var returnParameter = cmd.Parameters.Add("@returnValue", SqlDbType.Int);
 
         returnParameter.Direction = ParameterDirection.ReturnValue;
@@ -413,8 +475,8 @@ public class DBservices
             User u = new();
             while (dataReader.Read())
             {
-                u.UserId = Convert.ToInt32(dataReader["UserID"]);
                 u.Email = dataReader["Email"].ToString();
+                u.Id = dataReader["Id"].ToString();
                 u.Password = dataReader["Password"].ToString();
                 u.FirstName = dataReader["FirstName"].ToString();
                 u.LastName = dataReader["LastName"].ToString();
@@ -466,6 +528,7 @@ public class DBservices
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
 
         paramDic.Add("@Email", user.Email);
+        paramDic.Add("@Id", user.Id);
         paramDic.Add("@Password", user.Password);
         paramDic.Add("@FirstName", user.FirstName);
         paramDic.Add("@LastName", user.LastName);
@@ -504,6 +567,116 @@ public class DBservices
         }
 
     }
+
+    public List<string> SearchUsers(string key)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@SearchKeyword", key);
+
+        cmd = CreateCommandWithStoredProcedure("SP_SearchUsersByName", con, paramDic);             // create the command
+
+
+        List<string> searchResults = new();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                string s = dataReader["Id"].ToString();
+                searchResults.Add(s);
+            }
+            return searchResults;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    
+    public List<Woof> GetUserPosts(string id)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@UserID", id);
+
+        cmd = CreateCommandWithStoredProcedure("SP_GetUserPosts", con, paramDic);             // create the command
+
+
+        List<Woof> posts = new();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                Woof p = new();
+                p.Id = dataReader["Id"].ToString();
+                p.Content = dataReader["Content"].ToString();
+                p.MediaId = dataReader["MediaID"].ToString();
+                p.UserId = dataReader["UserID"].ToString();
+                p.CreatedAt = Convert.ToDateTime(dataReader["CreatedAt"]);
+                posts.Add(p);
+            }
+            return posts;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
 
     //public int Fav(int user, int song)
     //{
@@ -1035,69 +1208,7 @@ public class DBservices
 
     //} 
 
-    //public List<Song>  Search(string key)
-    //{
 
-    //    SqlConnection con;
-    //    SqlCommand cmd;
-
-    //    try
-    //    {
-    //        con = connect("myProjDB"); // create the connection
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        // write to log
-    //        throw (ex);
-    //    }
-
-    //    Dictionary<string, object> paramDic = new Dictionary<string, object>();
-    //    paramDic.Add("@SearchKeyword", key);
-
-    //    cmd = CreateCommandWithStoredProcedure("SP_SearchSongs", con, paramDic);             // create the command
-
-
-    //    List<Song> songsList = new List<Song>();
-
-    //    try
-    //    {
-    //        SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-    //        while (dataReader.Read())
-    //        {
-    //            Song s = new Song();
-    //            s.Id = Convert.ToInt32(dataReader["ID"]);
-    //            s.Artist_id = Convert.ToInt32(dataReader["artist_id"]);
-    //            s.Album_id = Convert.ToInt32(dataReader["album_id"]);
-    //            s.Api_id = Convert.ToInt32(dataReader["api_id"]);
-    //            s.ArtistName = dataReader["Artist"].ToString();
-    //            s.Text = dataReader["Text"].ToString();
-    //             s.AppleM = dataReader["appleM"].ToString();
-    //            s.UTube = dataReader["uTube"].ToString();
-    //            s.AlbumName = dataReader["albumName"].ToString();
-    //            s.ImgUrl = dataReader["imgUrl"].ToString();
-    //            s.RealeaseDate = Convert.ToDateTime(dataReader["realeaseDate"]).Date;
-    //            s.SongName = dataReader["Song"].ToString();
-    //            songsList.Add(s);
-    //        }
-    //        return songsList;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        // write to log
-    //        throw (ex);
-    //    }
-
-    //    finally
-    //    {
-    //        if (con != null)
-    //        {
-    //            // close the db connection
-    //            con.Close();
-    //        }
-    //    }
-
-    //}
     // public List<Song> SearchBartist(string key)
     //{
 

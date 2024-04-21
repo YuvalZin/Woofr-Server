@@ -36,11 +36,56 @@ namespace woofr.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+        
+        // GET api/<WoofsController>/5
+        [HttpGet]
+        [Route("GetHomePagePosts/{userId}")]
+        public ActionResult GetHomePagePosts(string userId)
+        {
+            try
+            {
+                return Ok(Woof.GetHomePagePostsById(userId));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
 
         // POST api/<WoofsController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
+        }
+        // POST api/<WoofsController>
+        [HttpPost]
+        [Route("InsertPost")]
+        public ActionResult InsertPost([FromBody]Woof w)
+        {
+            try
+            {
+                return Ok(w.InsertPost());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+
+        }
+        // POST api/<WoofsController>
+        [HttpPost]
+        [Route("LikePost/{post_id}/{user_id}")]
+        public ActionResult LikePost(string post_id,string user_id)
+        {
+            try
+            {
+                return Ok(Woof.LikePost(post_id,user_id));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+
         }
 
         // PUT api/<WoofsController>/5
@@ -51,8 +96,17 @@ namespace woofr.Controllers
 
         // DELETE api/<WoofsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(string id)
         {
+            try
+            {
+                return Ok(Woof.Delete(id));
+                
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }

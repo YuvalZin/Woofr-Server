@@ -12,6 +12,7 @@
         //private string bio; 
         private DateTime birthday;
         private string token;
+        private DateTime likeTimestamp;
 
         public string Id { get => id; set => id = value; }
         public string Email { get => email; set => email = value; }
@@ -23,6 +24,7 @@
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
         public string Token { get => token; set => token = value; }
+        public DateTime LikeTimestamp { get => likeTimestamp; set => likeTimestamp = value; }
 
         public string RegisterUser()
         {
@@ -55,12 +57,28 @@
             if (results == null) throw new Exception("Error finding search results");
             else return results;
         }
+        
+         public List<User> GetLikesByPost(string id)
+        {
+            DBservices dbs = new DBservices();
+            List<User> results = dbs.GetUserLikesByPost(id);
+            if (results == null) throw new Exception("Error getting likes count results");
+            else return results;
+        }
 
         public User GetUser(string token)
         {
             DBservices dbs = new DBservices();
             User userData = dbs.GetUser(token);
             if (userData == null) throw new Exception("Error getting user data");
+            else return userData;
+        }
+        
+        public User GetUserInfoById(string id)
+        {
+            DBservices dbs = new DBservices();
+            User userData = dbs.GetUserInfoById(id);
+            if (userData == null) throw new Exception("Error getting user info");
             else return userData;
         }
 

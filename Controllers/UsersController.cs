@@ -46,7 +46,40 @@ namespace woofr.Controllers
             {
                 return StatusCode(500, e.Message);
             }
+        } 
+        
+        // GET: api/<UsersController>
+        [HttpGet]
+        [Route("GetUserInfo/{id}")]
+        public ActionResult GetUserInfo(string id)
+        {
+            try
+            {
+                User u = new();
+                return Ok(u.GetUserInfoById(id));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
+
+         // GET: api/<UsersController>
+        [HttpGet]
+        [Route("GetLikesByPostId/{id}")]
+        public ActionResult GetLikesByPostId(string id)
+        {
+            try
+            {
+                User u = new();
+                return Ok(u.GetLikesByPost(id));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
          // GET: api/<UsersController>
         [HttpGet]
         [Route("SearchUsers/{keyword}")]

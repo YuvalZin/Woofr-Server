@@ -21,7 +21,7 @@
             DBservices dbs = new DBservices();
             int rowsAff = dbs.InsertPost(this);
             if (rowsAff > 0) return true;
-            return false;
+            throw new Exception("Error finding post");
         }
          static public bool Delete(string id)
         {

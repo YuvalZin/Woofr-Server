@@ -629,7 +629,7 @@ public class DBservices
 
     }
 
-    public List<string> SearchUsers(string key)
+    public List<User> SearchUsers(string key)
     {
 
         SqlConnection con;
@@ -651,19 +651,22 @@ public class DBservices
         cmd = CreateCommandWithStoredProcedure("SP_SearchUsersByName", con, paramDic);             // create the command
 
 
-        List<string> searchResults = new();
+        List<User> searchResults = new();
 
         try
         {
             SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
             while (dataReader.Read())
             {
-                string s = dataReader["Id"].ToString();
-                searchResults.Add(s);
+                User u = new User();
+                u.Id = dataReader["Id"].ToString();
+                u.FirstName = dataReader["FirstName"].ToString();
+                u.LastName = dataReader["LastName"].ToString();
+                u.ProfilePictureUrl = dataReader["ProfilePicture"].ToString();
+              
+                searchResults.Add(u);
             }
-            return searchResults;
-        }
+            return searchResults;        }
         catch (Exception ex)
         {
             // write to log
@@ -835,7 +838,6 @@ public class DBservices
                 u.ProfilePictureUrl = dataReader["ProfilePicture"].ToString();
                 u.FirstName = dataReader["FirstName"].ToString();
                 u.LastName = dataReader["LastName"].ToString();
-                u.LikeTimestamp = Convert.ToDateTime(dataReader["Timestamp"]);
                 users.Add(u);
             }
             return users;

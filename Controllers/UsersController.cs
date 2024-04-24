@@ -81,9 +81,9 @@ namespace woofr.Controllers
         }
 
          // GET: api/<UsersController>
-        [HttpGet]
-        [Route("SearchUsers/{keyword}")]
-        public ActionResult SearchUsers(string keyword)
+        [HttpPost]
+        [Route("SearchUsers")]
+        public ActionResult SearchUsers([FromBody] string keyword)
         {
             try
             {

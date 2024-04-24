@@ -24,7 +24,6 @@
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
         public string Token { get => token; set => token = value; }
-        public DateTime LikeTimestamp { get => likeTimestamp; set => likeTimestamp = value; }
 
         public string RegisterUser()
         {
@@ -50,10 +49,10 @@
             else return followData;
         }
 
-         public List<string> SearchUsers(string keyword)
+         public List<User> SearchUsers(string keyword)
         {
             DBservices dbs = new DBservices();
-            List<string> results = dbs.SearchUsers(keyword);
+            List<User> results = dbs.SearchUsers(keyword);
             if (results == null) throw new Exception("Error finding search results");
             else return results;
         }

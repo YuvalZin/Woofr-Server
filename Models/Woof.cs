@@ -43,7 +43,6 @@
         {
             DBservices dbs = new DBservices();
             int likeCount = dbs.LikePost(post_id,user_id);
-            // Check if likeCount is valid (non-negative)
             if (likeCount >= 0)
             {
                 return likeCount;

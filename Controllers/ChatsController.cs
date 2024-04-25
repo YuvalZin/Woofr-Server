@@ -17,6 +17,22 @@ namespace woofr.Controllers
         }
 
         // GET api/<ChatsController>/5
+        [HttpGet]
+        [Route("GetUsersChat/{userId}")]
+        public ActionResult GetUsersChat(string userId)
+        {
+            try
+            {
+                return Ok(Chat.GetUsersChat(userId));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+
+        // GET api/<ChatsController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {

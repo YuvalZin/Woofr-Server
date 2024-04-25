@@ -802,6 +802,125 @@ public class DBservices
 
     }
 
+         
+    public List<Chat> GetUsersChat(string id)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@UserID", id);
+
+        cmd = CreateCommandWithStoredProcedure("SP_GetUserChats", con, paramDic);             // create the command
+
+
+        List<Chat> chats = new();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                Chat c = new();
+                c.ChatID = dataReader["ChatID"].ToString();
+                c.Participant1ID = dataReader["Participant1ID"].ToString();
+                c.Participant2ID = dataReader["Participant2ID"].ToString();
+                c.Participant1UnreadCount = Convert.ToInt32(dataReader["Participant1UnreadCount"]);
+                c.Participant2UnreadCount = Convert.ToInt32(dataReader["Participant2UnreadCount"]);
+                c.LastMessage = dataReader["LastMessage"].ToString();
+                chats.Add(c);
+            }
+            return chats;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+            
+    public List<Message> GetChatMessages(string id)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@ChatID", id);
+
+        cmd = CreateCommandWithStoredProcedure("SP_GetChatMessages", con, paramDic);             // create the command
+
+
+        List<Message> messages = new();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                Message m = new();
+                m.ChatId = dataReader["ChatID"].ToString();
+                m.MessageId = dataReader["MessageID"].ToString();
+                m.SenderId = dataReader["SenderID"].ToString();
+                m.ReceiverId = dataReader["ReceiverID"].ToString();
+                m.MessageText = dataReader["MessageText"].ToString();
+                m.Timestamp = Convert.ToDateTime(dataReader["Timestamp"]);
+                messages.Add(m);
+            }
+            
+            return messages;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
       
     public List<User> GetUserLikesByPost(string id)
     {

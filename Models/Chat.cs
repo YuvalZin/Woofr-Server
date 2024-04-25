@@ -15,5 +15,13 @@
         public int Participant1UnreadCount { get => participant1UnreadCount; set => participant1UnreadCount = value; }
         public int Participant2UnreadCount { get => participant2UnreadCount; set => participant2UnreadCount = value; }
         public string LastMessage { get => lastMessage; set => lastMessage = value; }
+
+        static public List<Chat> GetUsersChat(string id)
+        {
+            DBservices dbs = new DBservices();
+            List<Chat> results = dbs.GetUsersChat(id);
+            if (results == null) throw new Exception("Error finding chats");
+            else return results;
+        }
     }
 }

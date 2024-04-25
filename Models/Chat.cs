@@ -24,10 +24,10 @@
             else return results;
         }
 
-        public string StartChat()
+        public Chat StartChat()
         {
             DBservices dbs = new DBservices();
-            string chatId = dbs.StartChat(this);
+            Chat chatId = dbs.StartChat(this);
             return chatId;
             throw new Exception("Error starting new chat");
         }

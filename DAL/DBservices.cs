@@ -498,7 +498,7 @@ public class DBservices
       //--------------------------------------------------------------------------------------------------
     // This method getting user id by token
     //--------------------------------------------------------------------------------------------------
-    public string StartChat(Chat chat)
+    public Chat StartChat(Chat chat)
     {
 
         SqlConnection con;
@@ -524,14 +524,19 @@ public class DBservices
         try
         {
             SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-            string s = "";
+            Chat c =  new();
 
             if (dataReader.Read())
             {
-                 s = dataReader["ChatID"].ToString();
-               
+                c.ChatID = dataReader["ChatID"].ToString();
+                c.Participant1ID = dataReader["Participant1ID"].ToString();
+                c.Participant2ID = dataReader["Participant2ID"].ToString();
+                c.Participant1UnreadCount = Convert.ToInt32(dataReader["Participant1UnreadCount"]);
+                c.Participant2UnreadCount = Convert.ToInt32(dataReader["Participant2UnreadCount"]);
+                c.LastMessage = dataReader["LastMessage"].ToString();
+
             }
-            return s;
+            return c;
 
         }
         catch (Exception ex)

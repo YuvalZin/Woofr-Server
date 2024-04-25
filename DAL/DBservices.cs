@@ -495,6 +495,62 @@ public class DBservices
 
     }
 
+      //--------------------------------------------------------------------------------------------------
+    // This method getting user id by token
+    //--------------------------------------------------------------------------------------------------
+    public string StartChat(Chat chat)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@ChatId", chat.ChatID);
+        paramDic.Add("@Participant2ID", chat.Participant2ID);
+        paramDic.Add("@Participant1ID", chat.Participant1ID);
+
+        cmd = CreateCommandWithStoredProcedure("SP_CreateChat", con, paramDic);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            string s = "";
+
+            if (dataReader.Read())
+            {
+                 s = dataReader["ChatID"].ToString();
+               
+            }
+            return s;
+
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
 
     //--------------------------------------------------------------------------------------------------
     // This method update a user to the user table 

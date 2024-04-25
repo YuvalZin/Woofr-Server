@@ -41,8 +41,18 @@ namespace woofr.Controllers
 
         // POST api/<ChatsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Route("StartChat")]
+
+        public ActionResult StartChat([FromBody] Chat chat)
         {
+            try
+            {
+                return Ok(chat.StartChat());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         // PUT api/<ChatsController>/5

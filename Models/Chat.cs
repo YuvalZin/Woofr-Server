@@ -23,5 +23,13 @@
             if (results == null) throw new Exception("Error finding chats");
             else return results;
         }
+
+        public string StartChat()
+        {
+            DBservices dbs = new DBservices();
+            string chatId = dbs.StartChat(this);
+            return chatId;
+            throw new Exception("Error starting new chat");
+        }
     }
 }

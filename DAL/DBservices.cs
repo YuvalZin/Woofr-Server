@@ -1087,6 +1087,55 @@ public class DBservices
         }
 
     }
+
+    public int AddMessage(Message m)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+        paramDic.Add("@MessageId", m.MessageId);
+        paramDic.Add("@ChatID", m.ChatId);
+        paramDic.Add("@SenderID", m.SenderId);
+        paramDic.Add("@ReceiverID", m.ReceiverId);
+        paramDic.Add("@MessageText", m.MessageText);
+
+        cmd = CreateCommandWithStoredProcedure("SP_AddMessageToChat", con, paramDic);  // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
     public int Delete(string id)
     {
 

@@ -44,6 +44,22 @@ namespace woofr.Controllers
         {
         }
 
+        // POST api/<MessagesController>
+        [HttpPost]
+        [Route("AddMessage")]
+        public ActionResult AddMessage([FromBody] Message m)
+        {
+            try
+            {
+                return Ok(m.AddMessage());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+
+        }
+
         // PUT api/<MessagesController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)

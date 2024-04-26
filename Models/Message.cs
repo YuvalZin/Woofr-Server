@@ -24,5 +24,13 @@
             else return results;
         }
 
+        public bool AddMessage()
+        {
+            DBservices dbs = new DBservices();
+            int rowsAff = dbs.AddMessage(this);
+            if (rowsAff > 0) return true;
+            throw new Exception("Error Add Message");
+        }
+
     }
 }

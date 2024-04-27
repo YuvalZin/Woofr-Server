@@ -18,12 +18,12 @@ namespace woofr.Controllers
 
         // GET api/<MessagesController>/5
         [HttpGet]
-        [Route("GetChatMessages/{chatId}")]
-        public ActionResult GetChatMessages(string chatId)
+        [Route("GetChatMessages/{chatId}/{readerId}")]
+        public ActionResult GetChatMessages(string chatId, string readerId)
         {
             try
             {
-                return Ok(Message.GetChatMessages(chatId));
+                return Ok(Message.GetChatMessages(chatId,readerId));
             }
             catch (Exception e)
             {

@@ -533,6 +533,7 @@ public class DBservices
                 c.Participant2ID = dataReader["Participant2ID"].ToString();
                 c.Participant1UnreadCount = Convert.ToInt32(dataReader["Participant1UnreadCount"]);
                 c.Participant2UnreadCount = Convert.ToInt32(dataReader["Participant2UnreadCount"]);
+                c.Timestamp = Convert.ToDateTime(dataReader["Timestamp"]);
                 c.LastMessage = dataReader["LastMessage"].ToString();
 
             }
@@ -781,7 +782,6 @@ public class DBservices
                 p.MediaUrl = dataReader["MediaUrl"].ToString();
                 p.UserId = dataReader["UserID"].ToString();
                 p.CreatedAt = Convert.ToDateTime(dataReader["CreatedAt"]);
-                p.LikeCount = Convert.ToInt32(dataReader["LikeCount"]);
 
                 posts.Add(p);
             }
@@ -841,7 +841,6 @@ public class DBservices
                 p.MediaUrl = dataReader["MediaUrl"].ToString();
                 p.UserId = dataReader["UserID"].ToString();
                 p.CreatedAt = Convert.ToDateTime(dataReader["CreatedAt"]);
-                p.LikeCount = Convert.ToInt32(dataReader["LikeCount"]);
                 posts.Add(p);
             }
             return posts;
@@ -901,6 +900,8 @@ public class DBservices
                 c.Participant1UnreadCount = Convert.ToInt32(dataReader["Participant1UnreadCount"]);
                 c.Participant2UnreadCount = Convert.ToInt32(dataReader["Participant2UnreadCount"]);
                 c.LastMessage = dataReader["LastMessage"].ToString();
+                c.Timestamp = Convert.ToDateTime(dataReader["Timestamp"]);
+
                 chats.Add(c);
             }
             return chats;
@@ -923,7 +924,7 @@ public class DBservices
     }
 
             
-    public List<Message> GetChatMessages(string id)
+    public List<Message> GetChatMessages(string id, string readerId)
     {
 
         SqlConnection con;
@@ -941,6 +942,7 @@ public class DBservices
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
         paramDic.Add("@ChatID", id);
+        paramDic.Add("@ReaderID", readerId);
 
         cmd = CreateCommandWithStoredProcedure("SP_GetChatMessages", con, paramDic);             // create the command
 
@@ -1204,18 +1206,13 @@ public class DBservices
      
 
         cmd = CreateCommandWithStoredProcedure("SP_LikePost", con, paramDic);  // create the command
-        // Add output parameter for LikeCount
-        SqlParameter paramLikeCount = new SqlParameter("@LikeCount", SqlDbType.Int);
-        paramLikeCount.Direction = ParameterDirection.Output;
-        cmd.Parameters.Add(paramLikeCount);
+
 
         try
         {
-            cmd.ExecuteNonQuery(); // execute the command
-                                                     //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
-            int likeCount = Convert.ToInt32(paramLikeCount.Value);
-
-            return likeCount;
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                                   //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+           return (numEffected);
 
         }
         catch (Exception ex)

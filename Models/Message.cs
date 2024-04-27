@@ -16,10 +16,10 @@
         public string MessageText { get => messageText; set => messageText = value; }
         public DateTime Timestamp { get => timestamp; set => timestamp = value; }
 
-        static public List<Message> GetChatMessages(string id)
+        static public List<Message> GetChatMessages(string id,string readerId)
         {
             DBservices dbs = new DBservices();
-            List<Message> results = dbs.GetChatMessages(id);
+            List<Message> results = dbs.GetChatMessages(id,readerId);
             if (results == null) throw new Exception("Error finding chat messages");
             else return results;
         }

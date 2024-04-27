@@ -8,6 +8,7 @@
         private int participant1UnreadCount;
         private int participant2UnreadCount;
         private string lastMessage;
+        private DateTime timestamp;
 
         public string ChatID { get => chatID; set => chatID = value; }
         public string Participant1ID { get => participant1ID; set => participant1ID = value; }
@@ -15,6 +16,7 @@
         public int Participant1UnreadCount { get => participant1UnreadCount; set => participant1UnreadCount = value; }
         public int Participant2UnreadCount { get => participant2UnreadCount; set => participant2UnreadCount = value; }
         public string LastMessage { get => lastMessage; set => lastMessage = value; }
+        public DateTime Timestamp { get => timestamp; set => timestamp = value; }
 
         static public List<Chat> GetUsersChat(string id)
         {

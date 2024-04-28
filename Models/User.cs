@@ -64,17 +64,17 @@
             else return results;
         }
          
-         public List<User> GetUserFollowers(string token)
+         public List<User> GetUserFollowers(string id)
         {
             DBservices dbs = new DBservices();
-            List<User> results = dbs.GetUserFollowersByToken(token);
+            List<User> results = dbs.GetUserFollowersByUserId(id);
             if (results == null) throw new Exception("Error getting followers results");
             else return results;
         }
-         public List<User> GetUserFollowings(string token)
+         public List<User> GetUserFollowings(string id)
         {
             DBservices dbs = new DBservices();
-            List<User> results = dbs.GetUserFollowingsByToken(token);
+            List<User> results = dbs.GetUserFollowingsByUserId(id);
             if (results == null) throw new Exception("Error getting following results");
             else return results;
         }

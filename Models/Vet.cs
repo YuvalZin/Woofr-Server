@@ -3,8 +3,8 @@
     public class Vet
     {
         private string id;
-        private string firstName;
-        private string lastName;
+        private string userId;
+        private string displayName;
         private string? city;
         private string address;
         private string phone;
@@ -20,8 +20,7 @@
         private string verificationStatus;
 
         public string Id { get => id; set => id = value; }
-        public string FirstName { get => firstName; set => firstName = value; }
-        public string LastName { get => lastName; set => lastName = value; }
+        public string DisplayName { get => displayName; set => displayName = value; }
         public string Address { get => address; set => address = value; }
         public string Phone { get => phone; set => phone = value; }
         public string ProfileImage { get => profileImage; set => profileImage = value; }
@@ -35,6 +34,7 @@
         public string VerificationStatus { get => verificationStatus; set => verificationStatus = value; }
         public bool ActiveWoofr { get => activeWoofr; set => activeWoofr = value; }
         public string? City { get => city; set => city = value; }
+        public string UserId { get => userId; set => userId = value; }
 
         public bool RegisterVet()
         {

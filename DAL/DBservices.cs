@@ -416,8 +416,8 @@ public class DBservices
             {
                 Vet v = new();
                 v.Id = dataReader["Id"].ToString();
-                v.FirstName = dataReader["FirstName"].ToString();
-                v.LastName = dataReader["LastName"].ToString();
+                v.UserId = dataReader["UserId"].ToString();
+                v.DisplayName = dataReader["DisplayName"].ToString();
                 v.City = dataReader["City"].ToString(); 
                 v.Address = dataReader["Address"].ToString();
                 v.Phone = dataReader["Phone"].ToString();
@@ -1122,7 +1122,7 @@ public class DBservices
 
     }
             
-    public List<User> GetUserFollowersByToken(string token)
+    public List<User> GetUserFollowersByUserId(string id)
     {
 
         SqlConnection con;
@@ -1139,9 +1139,9 @@ public class DBservices
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@Token", token);
+        paramDic.Add("@UserId", id);
 
-        cmd = CreateCommandWithStoredProcedure("SP_GetUserFollowersByToken", con, paramDic);             // create the command
+        cmd = CreateCommandWithStoredProcedure("SP_GetUserFollowersByUserId", con, paramDic);             // create the command
 
 
         List<User> users = new();
@@ -1178,7 +1178,7 @@ public class DBservices
 
     }
                   
-    public List<User> GetUserFollowingsByToken(string token)
+    public List<User> GetUserFollowingsByUserId(string id)
     {
 
         SqlConnection con;
@@ -1195,9 +1195,9 @@ public class DBservices
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@Token", token);
+        paramDic.Add("@UserId", id);
 
-        cmd = CreateCommandWithStoredProcedure("SP_GetUserFollowingsByToken", con, paramDic);             // create the command
+        cmd = CreateCommandWithStoredProcedure("SP_GetUserFollowingsByUserId", con, paramDic);             // create the command
 
 
         List<User> users = new();
@@ -1351,17 +1351,16 @@ public class DBservices
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
 
         paramDic.Add("@Id", v.Id);
-        paramDic.Add("@FirstName", v.FirstName);
-        paramDic.Add("@LastName", v.LastName);
+        paramDic.Add("@DisplayName", v.DisplayName);
         paramDic.Add("@Address", v.Address);
         paramDic.Add("@Phone", v.Phone);
-        paramDic.Add("@ProfileImage", v.ProfileImage);
         paramDic.Add("@Description", v.Description);
         paramDic.Add("@Specialization", v.Specialization);
         paramDic.Add("@Availability24_7", v.Availability24_7);
         paramDic.Add("@SellsProducts", v.SellsProducts);
         paramDic.Add("@VetToHome", v.VetToHome);
         paramDic.Add("@Notes", v.Notes);
+        paramDic.Add("@UserId", v.UserId);
 
         cmd = CreateCommandWithStoredProcedure("SP_RegisterVet", con, paramDic);  // create the command
 
@@ -1550,13 +1549,15 @@ public class DBservices
      
 
         cmd = CreateCommandWithStoredProcedure("SP_LikePost", con, paramDic);  // create the command
-
+        SqlParameter outputParam = new SqlParameter("@IsLiked", SqlDbType.Bit);
+        outputParam.Direction = ParameterDirection.Output;
+        cmd.Parameters.Add(outputParam);
 
         try
         {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-                                   //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
-           return (numEffected);
+            cmd.ExecuteNonQuery(); // execute the command
+            int outputStatus = Convert.ToInt32(cmd.Parameters["@IsLiked"].Value);
+            return (outputStatus);
 
         }
         catch (Exception ex)

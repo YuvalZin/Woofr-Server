@@ -37,11 +37,11 @@
             else return results;
         }
         
-        static public bool LikePost(string post_id, string user_id)
+        static public int LikePost(string post_id, string user_id)
         {
             DBservices dbs = new DBservices();
-            int rowsAff = dbs.LikePost(post_id,user_id);
-            if (rowsAff > 0) return true;
+            int status = dbs.LikePost(post_id,user_id);
+            if (status >= 0) return status;
             throw new Exception("Invalid like procedere");
 
         }

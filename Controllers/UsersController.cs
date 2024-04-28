@@ -81,13 +81,13 @@ namespace woofr.Controllers
         }
           // GET: api/<UsersController>
         [HttpGet]
-        [Route("GetUserFollowersByToken/{token}")]
-        public ActionResult GetUserFollowersByToken(string token)
+        [Route("GetUserFollowersById/{id}")]
+        public ActionResult GetUserFollowersByToken(string id)
         {
             try
             {
                 User u = new();
-                return Ok(u.GetUserFollowers(token));
+                return Ok(u.GetUserFollowers(id));
             }
             catch (Exception e)
             {

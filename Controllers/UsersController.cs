@@ -79,6 +79,36 @@ namespace woofr.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+          // GET: api/<UsersController>
+        [HttpGet]
+        [Route("GetUserFollowersByToken/{token}")]
+        public ActionResult GetUserFollowersByToken(string token)
+        {
+            try
+            {
+                User u = new();
+                return Ok(u.GetUserFollowers(token));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+           // GET: api/<UsersController>
+        [HttpGet]
+        [Route("GetUserFollowingsByToken/{token}")]
+        public ActionResult GetUserFollowingsByToken(string token)
+        {
+            try
+            {
+                User u = new();
+                return Ok(u.GetUserFollowings(token));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
 
          // GET: api/<UsersController>
         [HttpPost]
@@ -134,6 +164,21 @@ namespace woofr.Controllers
         }
 
         [HttpPost]
+        [Route("FollowUnfollowUser/{follower}/{followed}")]
+        public ActionResult FollowUnfollowUser(string follower, string followed)
+        {
+            try
+            {
+                User u = new();
+                return Ok(u.FollowUnfollowUser(follower, followed));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpPost]
         [Route("UploadProfileImage")] // Endpoint without imageURL in the route
         public ActionResult UploadProfileImage([FromForm] IFormCollection form)
         {
@@ -150,13 +195,50 @@ namespace woofr.Controllers
             }
            
         }
-        //// PUT api/<UsersController>/5
-        //[HttpPut("UploadImage5/{token}")]
-        //public bool UploadImage5(string token, [FromBody] string image)
-        //{
-        //    User u = new();
-        //    return u.UploadImage(token, image);
-        //}
+
+        // PUT api/<UsersController>/5
+        [HttpPut("EditProfile")]
+        public ActionResult EditProfile([FromBody] User userData)
+        {
+            try
+            {
+                User u = new();
+                return Ok(userData.EditProfile());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        } 
+        
+        // PUT api/<UsersController>/5
+        [HttpPut("UpdateUserBio/{token}")]
+        public ActionResult UpdateUserBio([FromBody] string bio,string token)
+        {
+            try
+            {
+                User u = new();
+                return Ok(u.UpdateUserBio(bio,token));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+         // PUT api/<UsersController>/5
+        [HttpPut("DeleteProfile/{token}")]
+        public ActionResult DeleteProfile(string token)
+        {
+            try
+            {
+                User u = new();
+                return Ok(u.DeleteProfile(token));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]

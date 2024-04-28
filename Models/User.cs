@@ -12,7 +12,6 @@
         //private string bio; 
         private DateTime birthday;
         private string token;
-        private DateTime likeTimestamp;
 
         public string Id { get => id; set => id = value; }
         public string Email { get => email; set => email = value; }
@@ -64,6 +63,21 @@
             if (results == null) throw new Exception("Error getting likes count results");
             else return results;
         }
+         
+         public List<User> GetUserFollowers(string token)
+        {
+            DBservices dbs = new DBservices();
+            List<User> results = dbs.GetUserFollowersByToken(token);
+            if (results == null) throw new Exception("Error getting followers results");
+            else return results;
+        }
+         public List<User> GetUserFollowings(string token)
+        {
+            DBservices dbs = new DBservices();
+            List<User> results = dbs.GetUserFollowingsByToken(token);
+            if (results == null) throw new Exception("Error getting following results");
+            else return results;
+        }
 
         public User GetUser(string token)
         {
@@ -89,9 +103,38 @@
             if (token == null) throw new Exception("We couldn't find an account with the email and password you provided. Please check your details and try again.");
             else return token;
         }
+        public bool EditProfile()
+        {
+            DBservices dbs = new DBservices();
+            int rowsAff = dbs.EditProfile(this);
+            if (rowsAff > 0) return true;
+            throw new Exception("Couldnt update profile");
 
-        //public DateTime RegistrationDate { get; set; }
-        //public DateTime LastLoginDate { get; set; }
-        //public AccountStatus Status { get; set; } // Enum: Active, Suspended, Deleted
+        }  
+        public bool UpdateUserBio(string bio, string token)
+        {
+            DBservices dbs = new DBservices();
+            int rowsAff = dbs.UpdateUserBio(bio,token);
+            if (rowsAff > 0) return true;
+            throw new Exception("Couldnt update profile");
+
+        }
+        public bool DeleteProfile(string token)
+        {
+            DBservices dbs = new DBservices();
+            int rowsAff = dbs.DeleteProfile(token);
+            if (rowsAff > 0) return true;
+            throw new Exception("Couldnt delete profile");
+
+        }
+          public int FollowUnfollowUser(string follower, string followed)
+        {
+            DBservices dbs = new DBservices();
+            int status = dbs.FollowUnfollowUser(follower,followed);
+            if (status >= 0) return status;
+            throw new Exception("Couldnt follow profile");
+
+        }
+
     }
 }

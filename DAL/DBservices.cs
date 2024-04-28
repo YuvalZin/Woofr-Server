@@ -405,11 +405,6 @@ public class DBservices
         try
         {
             SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-            if (!dataReader.HasRows)
-            {
-                return null;
-            }
-
             List<Vet> vets = new();
 
             while (dataReader.Read())
@@ -1598,7 +1593,6 @@ public class DBservices
         paramDic.Add("@Token", userData.Token);
         paramDic.Add("@ProfilePicture", userData.ProfilePictureUrl);
         paramDic.Add("@Password", userData.Password);
-        paramDic.Add("@Email", userData.Email);
         paramDic.Add("@LastName", userData.LastName);
         paramDic.Add("@FirstName", userData.FirstName);
         

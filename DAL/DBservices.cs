@@ -486,6 +486,7 @@ public class DBservices
                 u.ProfilePictureUrl = dataReader["ProfilePicture"].ToString();
                 //u.BioDescription = dataReader["BioDescription"].ToString();
                 u.Birthday = Convert.ToDateTime(dataReader["BirthDate"]);
+                u.Type = dataReader["Type"].ToString();
                 u.Gender = dataReader["Gender"].ToString();
             }
             return u;

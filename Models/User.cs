@@ -12,6 +12,7 @@
         //private string bio; 
         private DateTime birthday;
         private string token;
+        private string type;
 
         public string Id { get => id; set => id = value; }
         public string Email { get => email; set => email = value; }
@@ -23,6 +24,7 @@
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
         public string Token { get => token; set => token = value; }
+        public string Type { get => type; set => type = value; }
 
         public string RegisterUser()
         {

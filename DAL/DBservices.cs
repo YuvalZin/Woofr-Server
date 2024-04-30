@@ -947,6 +947,66 @@ public class DBservices
 
     }
 
+       
+    public List<Review> GetReviewsByProUserId(string id)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@ProUserId", id);
+
+        cmd = CreateCommandWithStoredProcedure("SP_GetReviewsByProUserId", con, paramDic);             // create the command
+
+
+        List<Review> reviews = new();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                Review r = new();
+                r.Id = dataReader["Id"].ToString();
+                r.ProUserId = dataReader["ProUserId"].ToString();
+                r.Rating = Convert.ToInt32(dataReader["Rating"]);
+                r.UserId = dataReader["UserId"].ToString();
+                r.ReviewText = dataReader["ReviewText"].ToString();
+                r.DatePosted = Convert.ToDateTime(dataReader["DatePosted"]);
+
+                reviews.Add(r);
+            }
+            return reviews;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
       
     public List<Woof> GetHomePagePosts(string id)
     {

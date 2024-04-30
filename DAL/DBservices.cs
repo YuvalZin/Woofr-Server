@@ -446,6 +446,73 @@ public class DBservices
         }
 
     } 
+     public Vet GetVerifiedVetById(string id)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        
+            paramDic.Add("@UserId", id);
+
+
+        cmd = CreateCommandWithStoredProcedure("SP_GetVetByUserId", con, paramDic);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+           
+
+            if (dataReader.Read())
+            {
+                Vet v = new();
+                v.Id = dataReader["Id"].ToString();
+                v.UserId = dataReader["UserId"].ToString();
+                v.DisplayName = dataReader["DisplayName"].ToString();
+                v.City = dataReader["City"].ToString(); 
+                v.Address = dataReader["Address"].ToString();
+                v.Phone = dataReader["Phone"].ToString();
+                v.ProfileImage = "";
+                v.Description = dataReader["Description"].ToString();
+                v.Specialization = dataReader["Specialization"].ToString();
+                v.RatingScore = Convert.ToInt32(dataReader["Ratings"]);
+                v.Availability24_7 = Convert.ToBoolean(dataReader["Availability24_7"]);
+                v.SellsProducts = Convert.ToBoolean(dataReader["SellsProducts"]);
+                v.VetToHome = Convert.ToBoolean(dataReader["VetToHome"]);
+                v.ActiveWoofr = Convert.ToBoolean(dataReader["ActiveWoofr"]);
+                v.Notes = dataReader["Notes"].ToString();
+                return v;
+
+            }
+            return null;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    } 
     
     //--------------------------------------------------------------------------------------------------
     // This method getting user info by id

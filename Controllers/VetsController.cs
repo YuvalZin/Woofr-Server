@@ -31,14 +31,22 @@ namespace woofr.Controllers
             }
 
         }
-
-        // GET api/<VetsController>/5
+        // GET api/<VetsController>
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult Get(string id)
         {
-            return "value";
+            try
+            {
+                return Ok(Vet.GetVetById(id));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+
         }
 
+        
         // POST api/<VetsController>
         [HttpPost]
         public void Post([FromBody] string value)

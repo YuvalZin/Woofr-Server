@@ -51,6 +51,13 @@
             if (results == null) throw new Exception("Error finding vets results");
             else return results;
         }
+         static public Vet GetVetById(string id)
+        {
+            DBservices dbs = new DBservices();
+            Vet result = dbs.GetVerifiedVetById(id);
+            if (result == null) throw new Exception("Error finding vet data");
+            else return result;
+        }
 
 
     }

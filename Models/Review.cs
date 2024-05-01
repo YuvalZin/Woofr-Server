@@ -23,5 +23,13 @@
             if (results == null) throw new Exception("Error geting user reviews");
             else return results;
         }
+
+        public bool InsertReview()
+        {
+            DBservices dbs = new DBservices();
+            int rowsAff = dbs.InsertReview(this);
+            if (rowsAff > 0) return true;
+            throw new Exception("Error inserting review");
+        }
     }
 }

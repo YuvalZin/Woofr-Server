@@ -1455,6 +1455,55 @@ public class DBservices
 
     }
     
+    public int InsertReview(Review r)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+        paramDic.Add("@ProUserId", r.ProUserId);
+        paramDic.Add("@ReviewText", r.ReviewText);
+        paramDic.Add("@UserId", r.UserId);
+        paramDic.Add("@Rating", r.Rating);
+        paramDic.Add("@Id", r.Id);
+
+        cmd = CreateCommandWithStoredProcedure("SP_AddReviewAndUpdateRating", con, paramDic);  // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    
     public int RegisterVet(Vet v)
     {
 

@@ -35,6 +35,22 @@ namespace woofr.Controllers
         {
         }
 
+        // POST api/<WoofsController>
+        [HttpPost]
+        [Route("InsertReview")]
+        public ActionResult InsertReview([FromBody] Review r)
+        {
+            try
+            {
+                return Ok(r.InsertReview());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+
+        }
+
         // PUT api/<ReviewsController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)

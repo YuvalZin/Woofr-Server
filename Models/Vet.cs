@@ -18,6 +18,7 @@
         private bool activeWoofr;
         private string notes;
         private string verificationStatus;
+        private string type;
 
         public string Id { get => id; set => id = value; }
         public string DisplayName { get => displayName; set => displayName = value; }
@@ -35,6 +36,7 @@
         public bool ActiveWoofr { get => activeWoofr; set => activeWoofr = value; }
         public string? City { get => city; set => city = value; }
         public string UserId { get => userId; set => userId = value; }
+        public string Type { get => type; set => type = value; }
 
         public bool RegisterVet()
         {

@@ -609,7 +609,71 @@ public class DBservices
             }
         }
 
-    } 
+    }
+
+    public List<Professional> GetProffesionalsForHomePage()
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = CreateCommandWithStoredProcedure("GetFeaturedProfessionals", con, null);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            List<Professional> professionals = new();
+
+            while (dataReader.Read())
+            {
+                Professional p = new();
+                p.Id = dataReader["Id"].ToString();
+                p.UserId = dataReader["UserId"].ToString();
+                p.DisplayName = dataReader["DisplayName"].ToString();
+                p.City = dataReader["City"].ToString();
+                p.Address = dataReader["Address"].ToString();
+                p.Phone = dataReader["Phone"].ToString();
+                p.ProfileImage = dataReader["ProfileImage"].ToString();
+                p.Description = dataReader["Description"].ToString();
+                p.RatingScore = Convert.ToInt32(dataReader["Ratings"]);
+                p.Availability24_7 = Convert.ToBoolean(dataReader["Availability24_7"]);
+                p.SellsProducts = Convert.ToBoolean(dataReader["SellsProducts"]);
+                p.ToHome = Convert.ToBoolean(dataReader["ToHome"]);
+                p.ActiveWoofr = Convert.ToBoolean(dataReader["ActiveWoofr"]);
+                p.Notes = dataReader["Notes"].ToString();
+                p.Type = dataReader["Type"].ToString();
+                professionals.Add(p);
+            }
+            return professionals;
+
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
     public Professional GetVerifiedProfessionalById(string id)
     {
 
@@ -731,8 +795,6 @@ public class DBservices
         }
 
     }
-
-
     public Chat StartChat(Chat chat)
     {
 

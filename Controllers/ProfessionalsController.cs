@@ -7,23 +7,23 @@ namespace woofr.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VetsController : ControllerBase
+    public class ProfessionalsController : ControllerBase
     {
-        // GET: api/<VetsController>
+        // GET: api/<ProfessionalsController>
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // POST api/<VetsController>
+        // POST api/<ProfessionalsController>
         [HttpPost]
-        [Route("GetVerifiedVets")]
-        public ActionResult GetVerifiedVets([FromBody] Vet v)
+        [Route("GetVerifiedProfessionals")]
+        public ActionResult GetVerifiedProfessionals([FromBody] Professional p)
         {
             try
             {
-                return Ok(v.GetVets());
+                return Ok(p.GetProfessionals());
             }
             catch (Exception e)
             {
@@ -31,13 +31,13 @@ namespace woofr.Controllers
             }
 
         }
-        // GET api/<VetsController>
+        // GET api/<ProfessionalsController>
         [HttpGet("{id}")]
         public ActionResult Get(string id)
         {
             try
             {
-                return Ok(Vet.GetVetById(id));
+                return Ok(Professional.GetProfessionalById(id));
             }
             catch (Exception e)
             {
@@ -47,20 +47,20 @@ namespace woofr.Controllers
         }
 
         
-        // POST api/<VetsController>
+        // POST api/<ProfessionalsController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
        
-        // POST api/<VetsController>
+        // POST api/<ProfessionalsController>
         [HttpPost]
-        [Route("RegisterVet")]
-        public ActionResult RegisterVet([FromBody] Vet v)
+        [Route("RegisterProfessional")]
+        public ActionResult RegisterProfessional([FromBody] Professional v)
         {
             try
             {
-                return Ok(v.RegisterVet());
+                return Ok(v.RegisterProfessional());
             }
             catch (Exception e)
             {
@@ -69,13 +69,13 @@ namespace woofr.Controllers
 
         }
 
-        // PUT api/<VetsController>/5
+        // PUT api/<ProfessionalsController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<VetsController>/5
+        // DELETE api/<ProfessionalsController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

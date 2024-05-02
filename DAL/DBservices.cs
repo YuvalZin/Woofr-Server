@@ -530,10 +530,11 @@ public class DBservices
         }
 
     }
+   
     //--------------------------------------------------------------------------------------------------
-    //----------VET METHODES
+    //----------PROFESSIONALS METHODES
     //--------------------------------------------------------------------------------------------------
-    public List<Vet> GetVerifiedVets(Vet vetFilters)
+    public List<Professional> GetVerifiedProfessionals(Professional filters)
     {
 
         SqlConnection con;
@@ -550,49 +551,47 @@ public class DBservices
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        if (vetFilters.City != null)
-            paramDic.Add("@City", vetFilters.City);
-        if (vetFilters.Specialization != null)
-            paramDic.Add("@Specialization", vetFilters.Specialization);
-        if (vetFilters.Availability24_7 != null)
-            paramDic.Add("@Availability24_7", vetFilters.Availability24_7);
-        if (vetFilters.SellsProducts != null)
-            paramDic.Add("@SellsProducts", vetFilters.SellsProducts);
-        if (vetFilters.VetToHome != null)
-            paramDic.Add("@VetToHome", vetFilters.VetToHome);
-        paramDic.Add("@Type", vetFilters.Type);
+        if (filters.City != null)
+            paramDic.Add("@City", filters.City);
+        if (filters.Availability24_7 != null)
+            paramDic.Add("@Availability24_7", filters.Availability24_7);
+        if (filters.SellsProducts != null)
+            paramDic.Add("@SellsProducts", filters.SellsProducts);
+        if (filters.ToHome != null)
+            paramDic.Add("@ToHome", filters.ToHome);
+        if (filters.Type != null)
+            paramDic.Add("@Type", filters.Type);
 
 
 
-        cmd = CreateCommandWithStoredProcedure("SP_GetVerifiedBusiness", con, paramDic);             // create the command
+        cmd = CreateCommandWithStoredProcedure("SP_GetVerifiedProfessionals", con, paramDic);             // create the command
 
         try
         {
             SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-            List<Vet> vets = new();
+            List<Professional> professionals = new();
 
             while (dataReader.Read())
             {
-                Vet v = new();
-                v.Id = dataReader["Id"].ToString();
-                v.UserId = dataReader["UserId"].ToString();
-                v.DisplayName = dataReader["DisplayName"].ToString();
-                v.City = dataReader["City"].ToString(); 
-                v.Address = dataReader["Address"].ToString();
-                v.Phone = dataReader["Phone"].ToString();
-                v.ProfileImage = dataReader["ProfileImage"].ToString();
-                v.Description = dataReader["Description"].ToString();
-                v.Specialization = dataReader["Specialization"].ToString();
-                v.RatingScore = Convert.ToInt32(dataReader["Ratings"]);
-                v.Availability24_7 = Convert.ToBoolean(dataReader["Availability24_7"]);
-                v.SellsProducts = Convert.ToBoolean(dataReader["SellsProducts"]);
-                v.VetToHome = Convert.ToBoolean(dataReader["VetToHome"]);
-                v.ActiveWoofr = Convert.ToBoolean(dataReader["ActiveWoofr"]);
-                v.Notes = dataReader["Notes"].ToString();
-                v.Type = dataReader["Type"].ToString();
-                vets.Add(v);
+                Professional p = new();
+                p.Id = dataReader["Id"].ToString();
+                p.UserId = dataReader["UserId"].ToString();
+                p.DisplayName = dataReader["DisplayName"].ToString();
+                p.City = dataReader["City"].ToString(); 
+                p.Address = dataReader["Address"].ToString();
+                p.Phone = dataReader["Phone"].ToString();
+                p.ProfileImage = dataReader["ProfileImage"].ToString();
+                p.Description = dataReader["Description"].ToString();
+                p.RatingScore = Convert.ToInt32(dataReader["Ratings"]);
+                p.Availability24_7 = Convert.ToBoolean(dataReader["Availability24_7"]);
+                p.SellsProducts = Convert.ToBoolean(dataReader["SellsProducts"]);
+                p.ToHome = Convert.ToBoolean(dataReader["ToHome"]);
+                p.ActiveWoofr = Convert.ToBoolean(dataReader["ActiveWoofr"]);
+                p.Notes = dataReader["Notes"].ToString();
+                p.Type = dataReader["Type"].ToString();
+                professionals.Add(p);
             }
-            return vets;
+            return professionals;
 
         }
         catch (Exception ex)
@@ -611,7 +610,7 @@ public class DBservices
         }
 
     } 
-    public Vet GetVerifiedVetById(string id)
+    public Professional GetVerifiedProfessionalById(string id)
     {
 
         SqlConnection con;
@@ -632,7 +631,7 @@ public class DBservices
             paramDic.Add("@UserId", id);
 
 
-        cmd = CreateCommandWithStoredProcedure("SP_GetVetByUserId", con, paramDic);             // create the command
+        cmd = CreateCommandWithStoredProcedure("SP_GetProfessionalByUserId", con, paramDic);             // create the command
 
         try
         {
@@ -641,7 +640,7 @@ public class DBservices
 
             if (dataReader.Read())
             {
-                Vet v = new();
+                Professional v = new();
                 v.Id = dataReader["Id"].ToString();
                 v.UserId = dataReader["UserId"].ToString();
                 v.DisplayName = dataReader["DisplayName"].ToString();
@@ -650,11 +649,11 @@ public class DBservices
                 v.Phone = dataReader["Phone"].ToString();
                 v.ProfileImage = "";
                 v.Description = dataReader["Description"].ToString();
-                v.Specialization = dataReader["Specialization"].ToString();
+                v.Type = dataReader["Type"].ToString();
                 v.RatingScore = Convert.ToInt32(dataReader["Ratings"]);
                 v.Availability24_7 = Convert.ToBoolean(dataReader["Availability24_7"]);
                 v.SellsProducts = Convert.ToBoolean(dataReader["SellsProducts"]);
-                v.VetToHome = Convert.ToBoolean(dataReader["VetToHome"]);
+                v.ToHome = Convert.ToBoolean(dataReader["ToHome"]);
                 v.ActiveWoofr = Convert.ToBoolean(dataReader["ActiveWoofr"]);
                 v.Notes = dataReader["Notes"].ToString();
                 return v;
@@ -677,8 +676,63 @@ public class DBservices
             }
         }
 
-    } 
-    
+    }
+    public int RegisterProfessional(Professional p)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+        paramDic.Add("@Id", p.Id);
+        paramDic.Add("@DisplayName", p.DisplayName);
+        paramDic.Add("@Address", p.Address);
+        paramDic.Add("@Phone", p.Phone);
+        paramDic.Add("@Description", p.Description);
+        paramDic.Add("@Type", p.Type);
+        paramDic.Add("@Availability24_7", p.Availability24_7);
+        paramDic.Add("@SellsProducts", p.SellsProducts);
+        paramDic.Add("@ToHome", p.ToHome);
+        paramDic.Add("@Notes", p.Notes);
+        paramDic.Add("@UserId", p.UserId);
+
+        cmd = CreateCommandWithStoredProcedure("SP_RegisterProfessional", con, paramDic);  // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+
     public Chat StartChat(Chat chat)
     {
 
@@ -1313,60 +1367,6 @@ public class DBservices
         paramDic.Add("@Id", r.Id);
 
         cmd = CreateCommandWithStoredProcedure("SP_AddReviewAndUpdateRating", con, paramDic);  // create the command
-
-        try
-        {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
-            return numEffected;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
-    public int RegisterVet(Vet v)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-
-        paramDic.Add("@Id", v.Id);
-        paramDic.Add("@DisplayName", v.DisplayName);
-        paramDic.Add("@Address", v.Address);
-        paramDic.Add("@Phone", v.Phone);
-        paramDic.Add("@Description", v.Description);
-        paramDic.Add("@Specialization", v.Specialization);
-        paramDic.Add("@Availability24_7", v.Availability24_7);
-        paramDic.Add("@SellsProducts", v.SellsProducts);
-        paramDic.Add("@VetToHome", v.VetToHome);
-        paramDic.Add("@Notes", v.Notes);
-        paramDic.Add("@UserId", v.UserId);
-
-        cmd = CreateCommandWithStoredProcedure("SP_RegisterVet", con, paramDic);  // create the command
 
         try
         {

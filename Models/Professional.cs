@@ -1,6 +1,6 @@
 ﻿namespace woofr.Models
 {
-    public class Vet
+    public class Professional
     {
         private string id;
         private string userId;
@@ -10,15 +10,14 @@
         private string phone;
         private string profileImage;
         private string description;
-        private string? specialization;
+        private string? type;
         private int ratingScore;
         private bool? availability24_7; // Nullable<bool>
         private bool? sellsProducts; // Nullable<bool>
-        private bool? vetToHome; // Nullable<bool>
+        private bool? toHome; // Nullable<bool>
         private bool activeWoofr;
         private string notes;
         private string verificationStatus;
-        private string type;
 
         public string Id { get => id; set => id = value; }
         public string DisplayName { get => displayName; set => displayName = value; }
@@ -26,38 +25,37 @@
         public string Phone { get => phone; set => phone = value; }
         public string ProfileImage { get => profileImage; set => profileImage = value; }
         public string Description { get => description; set => description = value; }
-        public string? Specialization { get => specialization; set => specialization = value; }
+        public string? Type { get => type; set => type = value; }
         public int RatingScore { get => ratingScore; set => ratingScore = value; }
         public bool? Availability24_7 { get => availability24_7; set => availability24_7 = value; }
         public bool? SellsProducts { get => sellsProducts; set => sellsProducts = value; }
-        public bool? VetToHome { get => vetToHome; set => vetToHome = value; }
+        public bool? ToHome { get => toHome; set => toHome = value; }
         public string Notes { get => notes; set => notes = value; }
         public string VerificationStatus { get => verificationStatus; set => verificationStatus = value; }
         public bool ActiveWoofr { get => activeWoofr; set => activeWoofr = value; }
         public string? City { get => city; set => city = value; }
         public string UserId { get => userId; set => userId = value; }
-        public string Type { get => type; set => type = value; }
 
-        public bool RegisterVet()
+        public bool RegisterProfessional()
         {
             DBservices dbs = new DBservices();
-            int rowsAff = dbs.RegisterVet(this);
+            int rowsAff = dbs.RegisterProfessional(this);
             if (rowsAff > 0) return true;
-            throw new Exception("Error adding vet");
+            throw new Exception("Error adding professional");
         }
 
-        public List<Vet> GetVets()
+        public List<Professional> GetProfessionals()
         {
             DBservices dbs = new DBservices();
-            List<Vet> results = dbs.GetVerifiedVets(this);
-            if (results == null) throw new Exception("Error finding vets results");
+            List<Professional> results = dbs.GetVerifiedProfessionals(this);
+            if (results == null) throw new Exception("Error finding professionals results");
             else return results;
         }
-         static public Vet GetVetById(string id)
+         static public Professional GetProfessionalById(string id)
         {
             DBservices dbs = new DBservices();
-            Vet result = dbs.GetVerifiedVetById(id);
-            if (result == null) throw new Exception("Error finding vet data");
+            Professional result = dbs.GetVerifiedProfessionalById(id);
+            if (result == null) throw new Exception("Error finding professional data");
             else return result;
         }
 

@@ -49,7 +49,7 @@
             DBservices dbs = new DBservices();
             int rowsAff = dbs.UpdateProffesional(this);
             if (rowsAff > 0) return true;
-            throw new Exception("Error adding professional");
+            throw new Exception("Error updating professional");
         }
 
         public List<Professional> GetProfessionals()

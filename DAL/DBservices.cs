@@ -565,7 +565,7 @@ public class DBservices
 
 
 
-        cmd = CreateCommandWithStoredProcedure("SP_GetVerifiedProfessionals", con, paramDic);             // create the command
+        cmd = CreateCommandWithStoredProcedure("SP_GetVerifiedProfessionals", con, paramDic); // create the command
 
         try
         {
@@ -611,7 +611,6 @@ public class DBservices
         }
 
     }
-
     public List<Professional> GetProffesionalsForHomePage()
     {
 
@@ -674,7 +673,6 @@ public class DBservices
         }
 
     }
-
     public Professional GetVerifiedProfessionalById(string id)
     {
 
@@ -797,6 +795,66 @@ public class DBservices
         }
 
     }
+    public int UpdateProffesional(Professional p)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+
+        // Add parameters
+        paramDic.Add("@Id", p.Id);
+        paramDic.Add("@DisplayName", p.DisplayName);
+        paramDic.Add("@City", p.City);
+        paramDic.Add("@Address", p.Address);
+        paramDic.Add("@Phone", p.Phone);
+        paramDic.Add("@Description", p.Description);
+           paramDic.Add("@Ratings", p.RatingScore);
+           paramDic.Add("@Availability24_7", p.Availability24_7);
+           paramDic.Add("@SellsProducts", p.SellsProducts);
+           paramDic.Add("@ToHome", p.ToHome);
+           paramDic.Add("@Notes", p.Notes);
+           paramDic.Add("@VerificationStatus", p.VerificationStatus);
+           paramDic.Add("@ActiveWoofr", p.ActiveWoofr);
+           paramDic.Add("@UserId", p.UserId);
+           paramDic.Add("@Type", p.Type);
+
+        cmd = CreateCommandWithStoredProcedure("SP_UpdateProfessionalById", con, paramDic);  // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+
     public Chat StartChat(Chat chat)
     {
 
@@ -1498,59 +1556,6 @@ public class DBservices
             }
         }
 
-    }
-
-    public int UpdateProffesional(Professional P)
-    {
-        SqlConnection con = null;
-        SqlCommand cmd = null;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-
-            // Create the command
-            cmd = new SqlCommand("UpdateProfessionalById", con);
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            // Add parameters
-            cmd.Parameters.AddWithValue("@Id", P.Id);
-            cmd.Parameters.AddWithValue("@DisplayName", P.DisplayName);
-            cmd.Parameters.AddWithValue("@City", P.City);
-            cmd.Parameters.AddWithValue("@Address", P.Address);
-            cmd.Parameters.AddWithValue("@Phone", P.Phone);
-            cmd.Parameters.AddWithValue("@Description", P.Description);
-            cmd.Parameters.AddWithValue("@Ratings", P.RatingScore);
-            cmd.Parameters.AddWithValue("@Availability24_7", P.Availability24_7);
-            cmd.Parameters.AddWithValue("@SellsProducts", P.SellsProducts);
-            cmd.Parameters.AddWithValue("@ToHome", P.ToHome);
-            cmd.Parameters.AddWithValue("@Notes", P.Notes);
-            cmd.Parameters.AddWithValue("@VerificationStatus", P.VerificationStatus);
-            cmd.Parameters.AddWithValue("@ActiveWoofr", P.ActiveWoofr);
-            cmd.Parameters.AddWithValue("@UserId", P.UserId);
-            cmd.Parameters.AddWithValue("@Type", P.Type);
-
-            // Open the connection
-            con.Open();
-
-            // Execute the command
-            int numEffected = cmd.ExecuteNonQuery();
-
-            return numEffected;
-        }
-        catch (Exception ex)
-        {
-            // Handle exception or write to log
-            throw ex;
-        }
-        finally
-        {
-            // Close the connection
-            if (con != null)
-            {
-                con.Close();
-            }
-        }
     }
 
     public int AddMessage(Message m)

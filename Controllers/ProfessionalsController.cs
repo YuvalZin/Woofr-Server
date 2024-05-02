@@ -87,12 +87,12 @@ namespace woofr.Controllers
 
         // PUT api/<ProfessionalsController>/5
         [HttpPut("UpdateProffesional")]
-        public ActionResult ToUpdateProffesional([FromBody] Professional P)
+        public ActionResult ToUpdateProffesional([FromBody] Professional p)
         {
 
             try
             {
-                return Ok(P.UpdateProfessional());
+                return Ok(p.UpdateProfessional());
             }
             catch (Exception e)
             {

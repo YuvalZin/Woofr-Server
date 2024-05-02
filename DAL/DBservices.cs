@@ -697,6 +697,7 @@ public class DBservices
 
         paramDic.Add("@Id", p.Id);
         paramDic.Add("@DisplayName", p.DisplayName);
+        paramDic.Add("@City", p.City);
         paramDic.Add("@Address", p.Address);
         paramDic.Add("@Phone", p.Phone);
         paramDic.Add("@Description", p.Description);

@@ -44,6 +44,14 @@
             throw new Exception("Error adding professional");
         }
 
+        public bool UpdateProfessional()
+        {
+            DBservices dbs = new DBservices();
+            int rowsAff = dbs.UpdateProffesional(this);
+            if (rowsAff > 0) return true;
+            throw new Exception("Error adding professional");
+        }
+
         public List<Professional> GetProfessionals()
         {
             DBservices dbs = new DBservices();

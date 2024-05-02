@@ -86,15 +86,26 @@ namespace woofr.Controllers
         }
 
         // PUT api/<ProfessionalsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("UpdateProffesional")]
+        public ActionResult ToUpdateProffesional([FromBody] Professional P)
         {
+
+            try
+            {
+                return Ok(P.UpdateProfessional());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+
+            }
         }
 
-        // DELETE api/<ProfessionalsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            // DELETE api/<ProfessionalsController>/5
+            [HttpDelete("{id}")]
+            public void Delete(int id)
+            {
+            }
         }
     }
-}
+

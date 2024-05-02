@@ -1502,48 +1502,55 @@ public class DBservices
 
     public int UpdateProffesional(Professional P)
     {
-
-        SqlConnection con;
-        SqlCommand cmd;
+        SqlConnection con = null;
+        SqlCommand cmd = null;
 
         try
         {
             con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
 
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            // Create the command
+            cmd = new SqlCommand("UpdateProfessionalById", con);
+            cmd.CommandType = CommandType.StoredProcedure;
 
-        paramDic.Add("@BioDescription", bio);
-        paramDic.Add("@Token", token);
+            // Add parameters
+            cmd.Parameters.AddWithValue("@Id", P.Id);
+            cmd.Parameters.AddWithValue("@DisplayName", P.DisplayName);
+            cmd.Parameters.AddWithValue("@City", P.City);
+            cmd.Parameters.AddWithValue("@Address", P.Address);
+            cmd.Parameters.AddWithValue("@Phone", P.Phone);
+            cmd.Parameters.AddWithValue("@Description", P.Description);
+            cmd.Parameters.AddWithValue("@Ratings", P.RatingScore);
+            cmd.Parameters.AddWithValue("@Availability24_7", P.Availability24_7);
+            cmd.Parameters.AddWithValue("@SellsProducts", P.SellsProducts);
+            cmd.Parameters.AddWithValue("@ToHome", P.ToHome);
+            cmd.Parameters.AddWithValue("@Notes", P.Notes);
+            cmd.Parameters.AddWithValue("@VerificationStatus", P.VerificationStatus);
+            cmd.Parameters.AddWithValue("@ActiveWoofr", P.ActiveWoofr);
+            cmd.Parameters.AddWithValue("@UserId", P.UserId);
+            cmd.Parameters.AddWithValue("@Type", P.Type);
 
-        cmd = CreateCommandWithStoredProcedure("SP_UpdateUserBio", con, paramDic);  // create the command
+            // Open the connection
+            con.Open();
 
-        try
-        {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+            // Execute the command
+            int numEffected = cmd.ExecuteNonQuery();
+
             return numEffected;
         }
         catch (Exception ex)
         {
-            // write to log
-            throw (ex);
+            // Handle exception or write to log
+            throw ex;
         }
-
         finally
         {
+            // Close the connection
             if (con != null)
             {
-                // close the db connection
                 con.Close();
             }
         }
-
     }
 
     public int AddMessage(Message m)

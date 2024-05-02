@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("woofr")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+696981cda097c7fbbd46896c8b91378fb0d752c6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+134d3935d91cf10965a3fb411d86ad3e9d8292ae")]
 [assembly: System.Reflection.AssemblyProductAttribute("woofr")]
 [assembly: System.Reflection.AssemblyTitleAttribute("woofr")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

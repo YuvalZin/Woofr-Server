@@ -31,6 +31,22 @@ namespace woofr.Controllers
             }
 
         }
+        // GET: api/<ProfessionalsController>
+        [HttpGet]
+        [Route("GetProffesionalsForHomePage")]
+        public ActionResult GetProffesionalsForHomePage()
+        {
+            Professional p = new Professional();
+            try
+            {
+                return Ok(p.GetProfessionals());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+
+        }
         // GET api/<ProfessionalsController>
         [HttpGet("{id}")]
         public ActionResult Get(string id)

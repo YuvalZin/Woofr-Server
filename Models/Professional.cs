@@ -58,6 +58,13 @@
             if (result == null) throw new Exception("Error finding professional data");
             else return result;
         }
+        static public List<Professional> GetProfessionalsHomePage()
+        {
+            DBservices dbs = new DBservices();
+            List<Professional> result = dbs.GetProffesionalsForHomePage();
+            if (result == null) throw new Exception("Error get professional for home page data");
+            else return result;
+        }
 
 
     }

@@ -36,6 +36,20 @@ namespace woofr.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+        // GET api/<WoofsController>/5
+        [HttpGet]
+        [Route("GetPetPosts/{petId}")]
+        public ActionResult GetPetPosts(string petId)
+        {
+            try
+            {
+                return Ok(Woof.GetPetPostsById(petId));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
         
         // GET api/<WoofsController>/5
         [HttpGet]
@@ -65,6 +79,21 @@ namespace woofr.Controllers
             try
             {
                 return Ok(w.InsertPost());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+
+        }
+        // POST api/<WoofsController>
+        [HttpPost]
+        [Route("TagPost/{pet_id}")]
+        public ActionResult TagPost([FromBody]string post_id, string pet_id)
+        {
+            try
+            {
+                return Ok(Woof.TagPostPet(post_id,pet_id));
             }
             catch (Exception e)
             {

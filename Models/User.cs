@@ -42,13 +42,7 @@
             if (u == null) throw new Exception("Error uploading photo");
             else return u;
         }
-       public string GetFollowCount(string token)
-        {
-            DBservices dbs = new DBservices();
-            string followData = dbs.GetFollowCount(token);
-            if (followData == null) throw new Exception("Error getting user data");
-            else return followData;
-        }
+
 
          public List<User> SearchUsers(string keyword)
         {
@@ -113,14 +107,14 @@
             throw new Exception("Couldnt update profile");
 
         }  
-        public bool UpdateUserBio(string bio, string token)
-        {
-            DBservices dbs = new DBservices();
-            int rowsAff = dbs.UpdateUserBio(bio,token);
-            if (rowsAff > 0) return true;
-            throw new Exception("Couldnt update profile");
+        //public bool UpdateUserBio(string bio, string token)
+        //{
+        //    DBservices dbs = new DBservices();
+        //    int rowsAff = dbs.UpdateUserBio(bio,token);
+        //    if (rowsAff > 0) return true;
+        //    throw new Exception("Couldnt update profile");
 
-        }
+        //}
         public bool DeleteProfile(string token)
         {
             DBservices dbs = new DBservices();

@@ -41,7 +41,6 @@ public class DBservices
             return builder.ToString();
         }
     }
-
     //--------------------------------------------------------------------------------------------------
     // This method creates a connection to the database according to the connectionString name in the web.config 
     //--------------------------------------------------------------------------------------------------
@@ -56,7 +55,6 @@ public class DBservices
         con.Open();
         return con;
     }
-
 
     //--------------------------------------------------------------------------------------------------
     //----------USER METHODES
@@ -83,7 +81,7 @@ public class DBservices
         paramDic.Add("@password", password);
 
 
-        cmd = CreateCommandWithStoredProcedure("SP_LoginUser", con, paramDic);             // create the command
+        cmd = CreateCommandWithStoredProcedure("USER_LoginUser", con, paramDic);             // create the command
         var returnParameter = cmd.Parameters.Add("@returnValue", SqlDbType.Int);
 
         returnParameter.Direction = ParameterDirection.ReturnValue;
@@ -121,57 +119,6 @@ public class DBservices
         }
 
     }  
-    //not in use...
-    public string GetFollowCount(string token)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@Token", token);
-
-        cmd = CreateCommandWithStoredProcedure("SP_GetUserFollowData_ByToken", con, paramDic);             // create the command
-
-        try
-        {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            string data = "error";
-
-            if (dataReader.Read())
-            {
-                data = dataReader["followCount"].ToString();
-                return data;
-            }
-            return data;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
     //get user by token
     public User GetUser(string token)
     {
@@ -192,7 +139,7 @@ public class DBservices
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
         paramDic.Add("@Token", token);
 
-        cmd = CreateCommandWithStoredProcedure("SP_GetUser_ByToken", con, paramDic);             // create the command
+        cmd = CreateCommandWithStoredProcedure("USER_GetUser_ByToken", con, paramDic);             // create the command
 
         try
         {
@@ -252,7 +199,7 @@ public class DBservices
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
         paramDic.Add("@UserID", id);
 
-        cmd = CreateCommandWithStoredProcedure("SP_GetUserDetailsById", con, paramDic);             // create the command
+        cmd = CreateCommandWithStoredProcedure("USER_GetUserDetailsById", con, paramDic);             // create the command
 
         try
         {
@@ -310,7 +257,7 @@ public class DBservices
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
         paramDic.Add("@Token", token);
 
-        cmd = CreateCommandWithStoredProcedure("SP_GetUser_ByToken", con, paramDic);             // create the command
+        cmd = CreateCommandWithStoredProcedure("USER_GetUser_ByToken", con, paramDic);             // create the command
 
         try
         {
@@ -371,7 +318,7 @@ public class DBservices
         paramDic.Add("@ProfilePictureURL", imageURL);
 
 
-        cmd = CreateCommandWithStoredProcedure("SP_UpdateProfilePicture", con, paramDic);             // create the command
+        cmd = CreateCommandWithStoredProcedure("USER_UpdateProfilePicture", con, paramDic);             // create the command
         var returnParameter = cmd.Parameters.Add("@returnValue", SqlDbType.Int);
 
         returnParameter.Direction = ParameterDirection.ReturnValue;
@@ -452,7 +399,7 @@ public class DBservices
         }
         paramDic.Add("@Token", token);
 
-        cmd = CreateCommandWithStoredProcedure("SP_RegisterUser", con, paramDic);  // create the command
+        cmd = CreateCommandWithStoredProcedure("USER_RegisterUser", con, paramDic);  // create the command
 
         try
         {
@@ -495,7 +442,7 @@ public class DBservices
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
         paramDic.Add("@SearchKeyword", key);
 
-        cmd = CreateCommandWithStoredProcedure("SP_SearchUsersByName", con, paramDic);             // create the command
+        cmd = CreateCommandWithStoredProcedure("USER_SearchUsersByName", con, paramDic);             // create the command
 
 
         List<User> searchResults = new();
@@ -531,7 +478,369 @@ public class DBservices
         }
 
     }
-   
+    public int EditProfile(User userData)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+        paramDic.Add("@Token", userData.Token);
+        paramDic.Add("@ProfilePicture", userData.ProfilePictureUrl);
+        paramDic.Add("@Password", userData.Password);
+        paramDic.Add("@LastName", userData.LastName);
+        paramDic.Add("@FirstName", userData.FirstName);
+
+
+
+
+        cmd = CreateCommandWithStoredProcedure("USER_EditProfile", con, paramDic);  // create the command
+
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                                                     //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+            return (numEffected);
+
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    public int DeleteProfile(string token)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+        paramDic.Add("@Token", token);
+
+        cmd = CreateCommandWithStoredProcedure("USER_DeleteUserByToken", con, paramDic);  // create the command
+
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                                                     //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+            return (numEffected);
+
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+    //public int UpdateUserBio(string bio, string token)
+    //{
+
+    //    SqlConnection con;
+    //    SqlCommand cmd;
+
+    //    try
+    //    {
+    //        con = connect("myProjDB"); // create the connection
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        // write to log
+    //        throw (ex);
+    //    }
+
+    //    Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+    //    paramDic.Add("@BioDescription", bio);
+    //    paramDic.Add("@Token", token);
+
+    //    cmd = CreateCommandWithStoredProcedure("SP_UpdateUserBio", con, paramDic);  // create the command
+
+    //    try
+    //    {
+    //        int numEffected = cmd.ExecuteNonQuery(); // execute the command
+    //        //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+    //        return numEffected;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        // write to log
+    //        throw (ex);
+    //    }
+
+    //    finally
+    //    {
+    //        if (con != null)
+    //        {
+    //            // close the db connection
+    //            con.Close();
+    //        }
+    //    }
+
+    //}
+    //------------FOLLOW-------------//
+    public List<User> GetUserFollowersByUserId(string id)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@UserId", id);
+
+        cmd = CreateCommandWithStoredProcedure("FOLLOW_GetUserFollowersByUserId", con, paramDic);             // create the command
+
+
+        List<User> users = new();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                User u = new();
+                u.Id = dataReader["Id"].ToString();
+                u.ProfilePictureUrl = dataReader["ProfilePicture"].ToString();
+                u.FirstName = dataReader["FirstName"].ToString();
+                u.LastName = dataReader["LastName"].ToString();
+                users.Add(u);
+            }
+            return users;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    public List<User> GetUserFollowingsByUserId(string id)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@UserId", id);
+
+        cmd = CreateCommandWithStoredProcedure("FOLLOW_GetUserFollowingsByUserId", con, paramDic);             // create the command
+
+
+        List<User> users = new();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                User u = new();
+                u.Id = dataReader["Id"].ToString();
+                u.ProfilePictureUrl = dataReader["ProfilePicture"].ToString();
+                u.FirstName = dataReader["FirstName"].ToString();
+                u.LastName = dataReader["LastName"].ToString();
+                users.Add(u);
+            }
+            return users;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    public int FollowUnfollowUser(string follower, string followed)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@FollowerID", follower);
+        paramDic.Add("@FollowedID", followed);
+
+        cmd = CreateCommandWithStoredProcedure("FOLLOW_FollowUnfollowUser", con, paramDic);             // create the command
+
+        SqlParameter outputParam = new SqlParameter("@OutputStatus", SqlDbType.Bit);
+        outputParam.Direction = ParameterDirection.Output;
+        cmd.Parameters.Add(outputParam);
+
+        try
+        {
+            cmd.ExecuteNonQuery();
+            int outputStatus = Convert.ToInt32(cmd.Parameters["@OutputStatus"].Value);
+            return outputStatus;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+    //-----------LIKES--------------//
+    public List<User> GetUserLikesByPost(string id)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@PostId", id);
+
+        cmd = CreateCommandWithStoredProcedure("POST_GetPostLikes", con, paramDic);             // create the command
+
+
+        List<User> users = new();
+
+        try
+        {
+
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                User u = new();
+                u.Id = dataReader["Id"].ToString();
+                u.ProfilePictureUrl = dataReader["ProfilePicture"].ToString();
+                u.FirstName = dataReader["FirstName"].ToString();
+                u.LastName = dataReader["LastName"].ToString();
+                users.Add(u);
+            }
+            return users;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
     //--------------------------------------------------------------------------------------------------
     //----------PROFESSIONALS METHODES
     //--------------------------------------------------------------------------------------------------
@@ -565,7 +874,7 @@ public class DBservices
 
 
 
-        cmd = CreateCommandWithStoredProcedure("SP_GetVerifiedProfessionals", con, paramDic); // create the command
+        cmd = CreateCommandWithStoredProcedure("PRO_GetVerifiedProfessionals", con, paramDic); // create the command
 
         try
         {
@@ -627,7 +936,7 @@ public class DBservices
             throw (ex);
         }
 
-        cmd = CreateCommandWithStoredProcedure("GetFeaturedProfessionals", con, null);             // create the command
+        cmd = CreateCommandWithStoredProcedure("PRO_GetFeaturedProfessionals", con, null);             // create the command
 
         try
         {
@@ -694,7 +1003,7 @@ public class DBservices
             paramDic.Add("@UserId", id);
 
 
-        cmd = CreateCommandWithStoredProcedure("SP_GetProfessionalByUserId", con, paramDic);             // create the command
+        cmd = CreateCommandWithStoredProcedure("PRO_GetProfessionalByUserId", con, paramDic);             // create the command
 
         try
         {
@@ -771,7 +1080,7 @@ public class DBservices
         paramDic.Add("@Notes", p.Notes);
         paramDic.Add("@UserId", p.UserId);
 
-        cmd = CreateCommandWithStoredProcedure("SP_RegisterProfessional", con, paramDic);  // create the command
+        cmd = CreateCommandWithStoredProcedure("PRO_RegisterProfessional", con, paramDic);  // create the command
 
         try
         {
@@ -830,7 +1139,7 @@ public class DBservices
            paramDic.Add("@UserId", p.UserId);
            paramDic.Add("@Type", p.Type);
 
-        cmd = CreateCommandWithStoredProcedure("SP_UpdateProfessionalById", con, paramDic);  // create the command
+        cmd = CreateCommandWithStoredProcedure("PRO_UpdateProfessionalById", con, paramDic);  // create the command
 
         try
         {
@@ -854,123 +1163,7 @@ public class DBservices
         }
     }
 
-
-    public Chat StartChat(Chat chat)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@ChatId", chat.ChatID);
-        paramDic.Add("@Participant2ID", chat.Participant2ID);
-        paramDic.Add("@Participant1ID", chat.Participant1ID);
-
-        cmd = CreateCommandWithStoredProcedure("SP_CreateChat", con, paramDic);             // create the command
-
-        try
-        {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-            Chat c =  new();
-
-            if (dataReader.Read())
-            {
-                c.ChatID = dataReader["ChatID"].ToString();
-                c.Participant1ID = dataReader["Participant1ID"].ToString();
-                c.Participant2ID = dataReader["Participant2ID"].ToString();
-                c.Participant1UnreadCount = Convert.ToInt32(dataReader["Participant1UnreadCount"]);
-                c.Participant2UnreadCount = Convert.ToInt32(dataReader["Participant2UnreadCount"]);
-                c.Timestamp = Convert.ToDateTime(dataReader["Timestamp"]);
-                c.LastMessage = dataReader["LastMessage"].ToString();
-
-            }
-            return c;
-
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
-
-    public List<Woof> GetUserPosts(string id)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@UserID", id);
-
-        cmd = CreateCommandWithStoredProcedure("SP_GetUserPosts", con, paramDic);             // create the command
-
-
-        List<Woof> posts = new();
-
-        try
-        {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dataReader.Read())
-            {
-                Woof p = new();
-                p.Id = dataReader["Id"].ToString();
-                p.Content = dataReader["Content"].ToString();
-                p.MediaUrl = dataReader["MediaUrl"].ToString();
-                p.UserId = dataReader["UserID"].ToString();
-                p.CreatedAt = Convert.ToDateTime(dataReader["CreatedAt"]);
-
-                posts.Add(p);
-            }
-            return posts;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }       
+    // -----------REVIEWS----------//
     public List<Review> GetReviewsByProUserId(string id)
     {
 
@@ -990,7 +1183,7 @@ public class DBservices
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
         paramDic.Add("@ProUserId", id);
 
-        cmd = CreateCommandWithStoredProcedure("SP_GetReviewsByProUserId", con, paramDic);             // create the command
+        cmd = CreateCommandWithStoredProcedure("REVIEW_GetReviewsByProUserId", con, paramDic);             // create the command
 
 
         List<Review> reviews = new();
@@ -1012,441 +1205,6 @@ public class DBservices
                 reviews.Add(r);
             }
             return reviews;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }      
-    public List<Woof> GetHomePagePosts(string id)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@UserID", id);
-
-        cmd = CreateCommandWithStoredProcedure("SP_GetUserPostsAndFollowingPosts", con, paramDic);             // create the command
-
-
-        List<Woof> posts = new();
-
-        try
-        {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dataReader.Read())
-            {
-                Woof p = new();
-                p.Id = dataReader["Id"].ToString();
-                p.Content = dataReader["Content"].ToString();
-                p.MediaUrl = dataReader["MediaUrl"].ToString();
-                p.UserId = dataReader["UserID"].ToString();
-                p.CreatedAt = Convert.ToDateTime(dataReader["CreatedAt"]);
-                posts.Add(p);
-            }
-            return posts;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }         
-    public List<Chat> GetUsersChat(string id)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@UserID", id);
-
-        cmd = CreateCommandWithStoredProcedure("SP_GetUserChats", con, paramDic);             // create the command
-
-
-        List<Chat> chats = new();
-
-        try
-        {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dataReader.Read())
-            {
-                Chat c = new();
-                c.ChatID = dataReader["ChatID"].ToString();
-                c.Participant1ID = dataReader["Participant1ID"].ToString();
-                c.Participant2ID = dataReader["Participant2ID"].ToString();
-                c.Participant1UnreadCount = Convert.ToInt32(dataReader["Participant1UnreadCount"]);
-                c.Participant2UnreadCount = Convert.ToInt32(dataReader["Participant2UnreadCount"]);
-                c.LastMessage = dataReader["LastMessage"].ToString();
-                c.Timestamp = Convert.ToDateTime(dataReader["Timestamp"]);
-
-                chats.Add(c);
-            }
-            return chats;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }           
-    public List<Message> GetChatMessages(string id, string readerId)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@ChatID", id);
-        paramDic.Add("@ReaderID", readerId);
-
-        cmd = CreateCommandWithStoredProcedure("SP_GetChatMessages", con, paramDic);             // create the command
-
-
-        List<Message> messages = new();
-
-        try
-        {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dataReader.Read())
-            {
-                Message m = new();
-                m.ChatId = dataReader["ChatID"].ToString();
-                m.MessageId = dataReader["MessageID"].ToString();
-                m.SenderId = dataReader["SenderID"].ToString();
-                m.ReceiverId = dataReader["ReceiverID"].ToString();
-                m.MessageText = dataReader["MessageText"].ToString();
-                m.Timestamp = Convert.ToDateTime(dataReader["Timestamp"]);
-                messages.Add(m);
-            }
-            
-            return messages;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }    
-    public List<User> GetUserLikesByPost(string id)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@PostId", id);
-
-        cmd = CreateCommandWithStoredProcedure("SP_GetPostLikes", con, paramDic);             // create the command
-
-
-        List<User> users = new();
-
-        try
-        {
-
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dataReader.Read())
-            {
-                User u = new();
-                u.Id = dataReader["Id"].ToString();
-                u.ProfilePictureUrl = dataReader["ProfilePicture"].ToString();
-                u.FirstName = dataReader["FirstName"].ToString();
-                u.LastName = dataReader["LastName"].ToString();
-                users.Add(u);
-            }
-            return users;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }           
-    public List<User> GetUserFollowersByUserId(string id)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@UserId", id);
-
-        cmd = CreateCommandWithStoredProcedure("SP_GetUserFollowersByUserId", con, paramDic);             // create the command
-
-
-        List<User> users = new();
-
-        try
-        {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dataReader.Read())
-            {
-                User u = new();
-                u.Id = dataReader["Id"].ToString();
-                u.ProfilePictureUrl = dataReader["ProfilePicture"].ToString();
-                u.FirstName = dataReader["FirstName"].ToString();
-                u.LastName = dataReader["LastName"].ToString();
-                users.Add(u);
-            }
-            return users;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }               
-    public List<User> GetUserFollowingsByUserId(string id)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@UserId", id);
-
-        cmd = CreateCommandWithStoredProcedure("SP_GetUserFollowingsByUserId", con, paramDic);             // create the command
-
-
-        List<User> users = new();
-
-        try
-        {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dataReader.Read())
-            {
-                User u = new();
-                u.Id = dataReader["Id"].ToString();
-                u.ProfilePictureUrl = dataReader["ProfilePicture"].ToString();
-                u.FirstName = dataReader["FirstName"].ToString();
-                u.LastName = dataReader["LastName"].ToString();
-                users.Add(u);
-            }
-            return users;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
-    public int FollowUnfollowUser(string follower,string followed)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@FollowerID", follower);
-        paramDic.Add("@FollowedID", followed);
-
-        cmd = CreateCommandWithStoredProcedure("SP_FollowUnfollowUser", con, paramDic);             // create the command
-        
-        SqlParameter outputParam = new SqlParameter("@OutputStatus", SqlDbType.Bit);
-        outputParam.Direction = ParameterDirection.Output;
-        cmd.Parameters.Add(outputParam);
-
-        try
-        {
-            cmd.ExecuteNonQuery();
-            int outputStatus = Convert.ToInt32(cmd.Parameters["@OutputStatus"].Value);
-            return outputStatus;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
-    public int InsertPost(Woof w)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-
-        paramDic.Add("@Id", w.Id);
-        paramDic.Add("@Content", w.Content);
-        paramDic.Add("@UserID", w.UserId);
-        paramDic.Add("@MediaUrl", w.MediaUrl);
-
-        cmd = CreateCommandWithStoredProcedure("SP_InsertNewPost", con, paramDic);  // create the command
-
-        try
-        {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
-            return numEffected;
         }
         catch (Exception ex)
         {
@@ -1488,7 +1246,7 @@ public class DBservices
         paramDic.Add("@Rating", r.Rating);
         paramDic.Add("@Id", r.Id);
 
-        cmd = CreateCommandWithStoredProcedure("SP_AddReviewAndUpdateRating", con, paramDic);  // create the command
+        cmd = CreateCommandWithStoredProcedure("REVIEW_AddReviewAndUpdateRating", con, paramDic);  // create the command
 
         try
         {
@@ -1512,7 +1270,11 @@ public class DBservices
         }
 
     }
-    public int UpdateUserBio(string bio, string token)
+
+    //--------------------------------------------------------------------------------------------------
+    //----------CHAT & MESSAGES METHODES
+    //--------------------------------------------------------------------------------------------------
+    public Chat StartChat(Chat chat)
     {
 
         SqlConnection con;
@@ -1529,17 +1291,30 @@ public class DBservices
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@ChatId", chat.ChatID);
+        paramDic.Add("@Participant2ID", chat.Participant2ID);
+        paramDic.Add("@Participant1ID", chat.Participant1ID);
 
-        paramDic.Add("@BioDescription", bio);
-        paramDic.Add("@Token", token);
-
-        cmd = CreateCommandWithStoredProcedure("SP_UpdateUserBio", con, paramDic);  // create the command
+        cmd = CreateCommandWithStoredProcedure("CHAT_CreateChat", con, paramDic);             // create the command
 
         try
         {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
-            return numEffected;
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            Chat c =  new();
+
+            if (dataReader.Read())
+            {
+                c.ChatID = dataReader["ChatID"].ToString();
+                c.Participant1ID = dataReader["Participant1ID"].ToString();
+                c.Participant2ID = dataReader["Participant2ID"].ToString();
+                c.Participant1UnreadCount = Convert.ToInt32(dataReader["Participant1UnreadCount"]);
+                c.Participant2UnreadCount = Convert.ToInt32(dataReader["Participant2UnreadCount"]);
+                c.Timestamp = Convert.ToDateTime(dataReader["Timestamp"]);
+                c.LastMessage = dataReader["LastMessage"].ToString();
+
+            }
+            return c;
+
         }
         catch (Exception ex)
         {
@@ -1557,7 +1332,65 @@ public class DBservices
         }
 
     }
+    public List<Chat> GetUsersChat(string id)
+    {
 
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@UserID", id);
+
+        cmd = CreateCommandWithStoredProcedure("CHAT_GetUserChats", con, paramDic);             // create the command
+
+
+        List<Chat> chats = new();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                Chat c = new();
+                c.ChatID = dataReader["ChatID"].ToString();
+                c.Participant1ID = dataReader["Participant1ID"].ToString();
+                c.Participant2ID = dataReader["Participant2ID"].ToString();
+                c.Participant1UnreadCount = Convert.ToInt32(dataReader["Participant1UnreadCount"]);
+                c.Participant2UnreadCount = Convert.ToInt32(dataReader["Participant2UnreadCount"]);
+                c.LastMessage = dataReader["LastMessage"].ToString();
+                c.Timestamp = Convert.ToDateTime(dataReader["Timestamp"]);
+
+                chats.Add(c);
+            }
+            return chats;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
     public int AddMessage(Message m)
     {
 
@@ -1582,7 +1415,7 @@ public class DBservices
         paramDic.Add("@ReceiverID", m.ReceiverId);
         paramDic.Add("@MessageText", m.MessageText);
 
-        cmd = CreateCommandWithStoredProcedure("SP_AddMessageToChat", con, paramDic);  // create the command
+        cmd = CreateCommandWithStoredProcedure("CHAT_AddMessageToChat", con, paramDic);  // create the command
 
         try
         {
@@ -1606,7 +1439,163 @@ public class DBservices
         }
 
     }
-    public int Delete(string id)
+    public List<Message> GetChatMessages(string id, string readerId)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@ChatID", id);
+        paramDic.Add("@ReaderID", readerId);
+
+        cmd = CreateCommandWithStoredProcedure("CHAT_GetChatMessages", con, paramDic);             // create the command
+
+
+        List<Message> messages = new();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                Message m = new();
+                m.ChatId = dataReader["ChatID"].ToString();
+                m.MessageId = dataReader["MessageID"].ToString();
+                m.SenderId = dataReader["SenderID"].ToString();
+                m.ReceiverId = dataReader["ReceiverID"].ToString();
+                m.MessageText = dataReader["MessageText"].ToString();
+                m.Timestamp = Convert.ToDateTime(dataReader["Timestamp"]);
+                messages.Add(m);
+            }
+            
+            return messages;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }    
+   
+    //--------------------------------------------------------------------------------------------------
+    //----------POSTS METHODES
+    //--------------------------------------------------------------------------------------------------
+    public int InsertPost(Woof w)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+        paramDic.Add("@Id", w.Id);
+        paramDic.Add("@Content", w.Content);
+        paramDic.Add("@UserID", w.UserId);
+        paramDic.Add("@MediaUrl", w.MediaUrl);
+
+        cmd = CreateCommandWithStoredProcedure("POST_InsertNewPost", con, paramDic);  // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    public int TagPost(string post_id,string pet_id)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+        paramDic.Add("@PostId", post_id);
+        paramDic.Add("@PetId", pet_id);
+
+
+        cmd = CreateCommandWithStoredProcedure("POST_TagPostPet", con, paramDic);  // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    public int DeletePost(string id)
     {
 
         SqlConnection con;
@@ -1626,7 +1615,7 @@ public class DBservices
 
         paramDic.Add("@PostID", id);
 
-        cmd = CreateCommandWithStoredProcedure("SP_DeletePostByID", con, paramDic);  // create the command
+        cmd = CreateCommandWithStoredProcedure("POST_DeletePostByID", con, paramDic);  // create the command
 
         try
         {
@@ -1673,7 +1662,7 @@ public class DBservices
 
      
 
-        cmd = CreateCommandWithStoredProcedure("SP_LikePost", con, paramDic);  // create the command
+        cmd = CreateCommandWithStoredProcedure("POST_LikePost", con, paramDic);  // create the command
         SqlParameter outputParam = new SqlParameter("@IsLiked", SqlDbType.Bit);
         outputParam.Direction = ParameterDirection.Output;
         cmd.Parameters.Add(outputParam);
@@ -1700,9 +1689,8 @@ public class DBservices
             }
         }
 
-    } 
-    
-    public int EditProfile(User userData)
+    }
+    public List<Woof> GetUserPosts(string id)
     {
 
         SqlConnection con;
@@ -1719,25 +1707,29 @@ public class DBservices
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@UserID", id);
 
-        paramDic.Add("@Token", userData.Token);
-        paramDic.Add("@ProfilePicture", userData.ProfilePictureUrl);
-        paramDic.Add("@Password", userData.Password);
-        paramDic.Add("@LastName", userData.LastName);
-        paramDic.Add("@FirstName", userData.FirstName);
-        
+        cmd = CreateCommandWithStoredProcedure("POST_GetUserPosts", con, paramDic);             // create the command
 
-     
 
-        cmd = CreateCommandWithStoredProcedure("SP_EditProfile", con, paramDic);  // create the command
-
+        List<Woof> posts = new();
 
         try
         {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-                                   //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
-           return (numEffected);
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
+            while (dataReader.Read())
+            {
+                Woof p = new();
+                p.Id = dataReader["Id"].ToString();
+                p.Content = dataReader["Content"].ToString();
+                p.MediaUrl = dataReader["MediaUrl"].ToString();
+                p.UserId = dataReader["UserID"].ToString();
+                p.CreatedAt = Convert.ToDateTime(dataReader["CreatedAt"]);
+
+                posts.Add(p);
+            }
+            return posts;
         }
         catch (Exception ex)
         {
@@ -1755,7 +1747,7 @@ public class DBservices
         }
 
     }
-    public int DeleteProfile(string token)
+    public List<Woof> GetPetPosts(string pet_id)
     {
 
         SqlConnection con;
@@ -1772,18 +1764,29 @@ public class DBservices
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@PetId", pet_id);
 
-        paramDic.Add("@Token", token);
+        cmd = CreateCommandWithStoredProcedure("POST_GetPetPosts", con, paramDic);  // create the command
 
-        cmd = CreateCommandWithStoredProcedure("SP_DeleteUserByToken", con, paramDic);  // create the command
 
+        List<Woof> posts = new();
 
         try
         {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-                                   //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
-           return (numEffected);
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
+            while (dataReader.Read())
+            {
+                Woof p = new();
+                p.Id = dataReader["Id"].ToString();
+                p.Content = dataReader["Content"].ToString();
+                p.MediaUrl = dataReader["MediaUrl"].ToString();
+                p.UserId = dataReader["UserID"].ToString();
+                p.CreatedAt = Convert.ToDateTime(dataReader["CreatedAt"]);
+
+                posts.Add(p);
+            }
+            return posts;
         }
         catch (Exception ex)
         {
@@ -1801,8 +1804,218 @@ public class DBservices
         }
 
     }
-    
+    public List<Woof> GetHomePagePosts(string id)
+    {
 
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@UserID", id);
+
+        cmd = CreateCommandWithStoredProcedure("POST_GetUserPostsAndFollowingPosts", con, paramDic);             // create the command
+
+
+        List<Woof> posts = new();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                Woof p = new();
+                p.Id = dataReader["Id"].ToString();
+                p.Content = dataReader["Content"].ToString();
+                p.MediaUrl = dataReader["MediaUrl"].ToString();
+                p.UserId = dataReader["UserID"].ToString();
+                p.CreatedAt = Convert.ToDateTime(dataReader["CreatedAt"]);
+                posts.Add(p);
+            }
+            return posts;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    //----------PETS METHODES
+    //--------------------------------------------------------------------------------------------------
+    public int InsertPet(Pet p)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+        paramDic.Add("@Id", p.Id);
+        paramDic.Add("@UserId", p.UserId);
+        paramDic.Add("@Name", p.Name);
+        paramDic.Add("@ImageUrl", p.ImageUrl);
+        paramDic.Add("@BirthYear", p.BirthYear);
+        paramDic.Add("@Breed", p.Breed);
+        paramDic.Add("@Bio", p.Bio);
+
+        cmd = CreateCommandWithStoredProcedure("PET_InsertPet", con, paramDic);  // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    public int DeletePet(string id)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+        paramDic.Add("@PetId", id);
+
+        cmd = CreateCommandWithStoredProcedure("PET_DeletePet", con, paramDic);  // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    public List<Pet> GetUserPets(string id)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@UserID", id);
+
+        cmd = CreateCommandWithStoredProcedure("PET_GetUserPets", con, paramDic);             // create the command
+
+
+        List<Pet> pets = new();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                Pet p = new();
+                p.Id = dataReader["Id"].ToString();
+                p.UserId = dataReader["UserId"].ToString();
+                p.Name = dataReader["Name"].ToString();
+                p.Breed = dataReader["Breed"].ToString();
+                p.Bio = dataReader["Bio"].ToString();
+                p.ImageUrl = dataReader["ImageUrl"].ToString();
+                p.BirthYear = Convert.ToInt32(dataReader["BirthYear"]);
+                pets.Add(p);
+            }
+            return pets;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
 
     //---------------------------------------------------------------------------------
     // Create the SqlCommand using a stored procedure

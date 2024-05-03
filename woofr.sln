@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.8.34408.163
+VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "woofr", "woofr.csproj", "{1FF1D4C1-CB9F-4D2B-8B19-5900D764A468}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "woofr", "woofr.csproj", "{1B1AD574-5443-4FEC-B009-550F68F79A2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1FF1D4C1-CB9F-4D2B-8B19-5900D764A468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1FF1D4C1-CB9F-4D2B-8B19-5900D764A468}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1FF1D4C1-CB9F-4D2B-8B19-5900D764A468}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1FF1D4C1-CB9F-4D2B-8B19-5900D764A468}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B1AD574-5443-4FEC-B009-550F68F79A2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B1AD574-5443-4FEC-B009-550F68F79A2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B1AD574-5443-4FEC-B009-550F68F79A2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B1AD574-5443-4FEC-B009-550F68F79A2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F2B95516-195F-4D79-A9C9-A63A2679DFDD}
+		SolutionGuid = {E759FFE3-184E-4867-B537-CA416231F05D}
 	EndGlobalSection
 EndGlobal

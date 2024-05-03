@@ -18,22 +18,6 @@ namespace woofr.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        [Route("GetFollowCountByToken/{token}")]
-        public ActionResult GetFollowCountByToken(string token)
-        {
-            try
-            {
-                User u = new();
-                return Ok(u.GetFollowCount(token));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
-        }
-        
-        // GET: api/<UsersController>
-        [HttpGet]
         [Route("GetUserData/{token}")]
         public ActionResult GetUserData(string token)
         {
@@ -211,20 +195,20 @@ namespace woofr.Controllers
             }
         } 
         
-        // PUT api/<UsersController>/5
-        [HttpPut("UpdateUserBio/{token}")]
-        public ActionResult UpdateUserBio([FromBody] string bio,string token)
-        {
-            try
-            {
-                User u = new();
-                return Ok(u.UpdateUserBio(bio,token));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
-        }
+        //// PUT api/<UsersController>/5
+        //[HttpPut("UpdateUserBio/{token}")]
+        //public ActionResult UpdateUserBio([FromBody] string bio,string token)
+        //{
+        //    try
+        //    {
+        //        User u = new();
+        //        return Ok(u.UpdateUserBio(bio,token));
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500, e.Message);
+        //    }
+        //}
          // PUT api/<UsersController>/5
         [HttpPut("DeleteProfile/{token}")]
         public ActionResult DeleteProfile(string token)

@@ -63,7 +63,7 @@
         {
             DBservices dbs = new DBservices();
             Professional result = dbs.GetVerifiedProfessionalById(id);
-            if (result == null) throw new Exception("Error finding professional data");
+            if (result == null) return null;
             else return result;
         }
         static public List<Professional> GetProfessionalsHomePage()

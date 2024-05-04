@@ -1,0 +1,198 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|c:\\users\\benyy\\onedrive\\documents\\code\\woofr-server\\dal\\dbservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|solutionrelative:dal\\dbservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|c:\\users\\benyy\\onedrive\\documents\\code\\woofr-server\\models\\professional.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|solutionrelative:models\\professional.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|c:\\users\\benyy\\onedrive\\documents\\code\\woofr-server\\controllers\\professionalscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|solutionrelative:controllers\\professionalscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|c:\\users\\benyy\\onedrive\\documents\\code\\woofr-server\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|solutionrelative:controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|c:\\users\\benyy\\onedrive\\documents\\code\\woofr-server\\controllers\\petscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|solutionrelative:controllers\\petscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|c:\\users\\benyy\\onedrive\\documents\\code\\woofr-server\\models\\pet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|solutionrelative:models\\pet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|c:\\users\\benyy\\onedrive\\documents\\code\\woofr-server\\models\\woof.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|solutionrelative:models\\woof.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|c:\\users\\benyy\\onedrive\\documents\\code\\woofr-server\\controllers\\woofscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|solutionrelative:controllers\\woofscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|c:\\users\\benyy\\onedrive\\documents\\code\\woofr-server\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B1AD574-5443-4FEC-B009-550F68F79A2B}|woofr.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 234,
+          "SelectedChildIndex": 9,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProfessionalsController.cs",
+              "DocumentMoniker": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Controllers\\ProfessionalsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ProfessionalsController.cs",
+              "ToolTip": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Controllers\\ProfessionalsController.cs",
+              "RelativeToolTip": "Controllers\\ProfessionalsController.cs",
+              "ViewState": "AQIAADIAAAAAAAAAAAAwwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-04T16:55:48.656Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Professional.cs",
+              "DocumentMoniker": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Models\\Professional.cs",
+              "RelativeDocumentMoniker": "Models\\Professional.cs",
+              "ToolTip": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Models\\Professional.cs",
+              "RelativeToolTip": "Models\\Professional.cs",
+              "ViewState": "AQIAADgAAAAAAAAAAAAowEEAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-04T15:43:13.71Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "WoofsController.cs",
+              "DocumentMoniker": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Controllers\\WoofsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\WoofsController.cs",
+              "ToolTip": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Controllers\\WoofsController.cs",
+              "RelativeToolTip": "Controllers\\WoofsController.cs",
+              "ViewState": "AQIAABsAAAAAAAAAAAA5wC0AAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-03T14:26:19.767Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PetsController.cs",
+              "DocumentMoniker": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Controllers\\PetsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\PetsController.cs",
+              "ToolTip": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Controllers\\PetsController.cs",
+              "RelativeToolTip": "Controllers\\PetsController.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAuwBsAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-03T14:26:19.858Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DBservices.cs",
+              "DocumentMoniker": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\DAL\\DBservices.cs",
+              "RelativeDocumentMoniker": "DAL\\DBservices.cs",
+              "ToolTip": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\DAL\\DBservices.cs",
+              "RelativeToolTip": "DAL\\DBservices.cs",
+              "ViewState": "AQIAACEEAAAAAAAAAAAowDwEAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-03T14:26:19.863Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "Controllers\\UsersController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAANQAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-03T14:26:19.867Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Pet.cs",
+              "DocumentMoniker": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Models\\Pet.cs",
+              "RelativeDocumentMoniker": "Models\\Pet.cs",
+              "ToolTip": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Models\\Pet.cs",
+              "RelativeToolTip": "Models\\Pet.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAAAAgAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-03T14:26:19.872Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Woof.cs",
+              "DocumentMoniker": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Models\\Woof.cs",
+              "RelativeDocumentMoniker": "Models\\Woof.cs",
+              "ToolTip": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Models\\Woof.cs",
+              "RelativeToolTip": "Models\\Woof.cs",
+              "ViewState": "AQIAACAAAAAAAAAAAIA7wDEAAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-03T14:26:19.877Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Models\\User.cs",
+              "ToolTip": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\Models\\User.cs",
+              "RelativeToolTip": "Models\\User.cs",
+              "ViewState": "AQIAAGEAAAAAAAAAAAApwHQAAAALAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-03T14:26:19.88Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1498,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1021,6 +1021,7 @@ public class DBservices
                 v.Phone = dataReader["Phone"].ToString();
                 v.ProfileImage = "";
                 v.Description = dataReader["Description"].ToString();
+                v.VerificationStatus = dataReader["VerificationStatus"].ToString();
                 v.Type = dataReader["Type"].ToString();
                 v.RatingScore = Convert.ToInt32(dataReader["Ratings"]);
                 v.Availability24_7 = Convert.ToBoolean(dataReader["Availability24_7"]);
@@ -1073,12 +1074,15 @@ public class DBservices
         paramDic.Add("@Address", p.Address);
         paramDic.Add("@Phone", p.Phone);
         paramDic.Add("@Description", p.Description);
-        paramDic.Add("@Type", p.Type);
+        paramDic.Add("@Ratings", p.RatingScore);
         paramDic.Add("@Availability24_7", p.Availability24_7);
         paramDic.Add("@SellsProducts", p.SellsProducts);
         paramDic.Add("@ToHome", p.ToHome);
         paramDic.Add("@Notes", p.Notes);
+        paramDic.Add("@VerificationStatus", p.VerificationStatus);
+        paramDic.Add("@ActiveWoofr", p.ActiveWoofr);
         paramDic.Add("@UserId", p.UserId);
+        paramDic.Add("@Type", p.Type);
 
         cmd = CreateCommandWithStoredProcedure("PRO_RegisterProfessional", con, paramDic);  // create the command
 

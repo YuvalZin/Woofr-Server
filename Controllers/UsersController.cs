@@ -210,7 +210,7 @@ namespace woofr.Controllers
         //    }
         //}
          // PUT api/<UsersController>/5
-        [HttpPut("DeleteProfile/{token}")]
+        [HttpDelete("DeleteProfile/{token}")]
         public ActionResult DeleteProfile(string token)
         {
             try

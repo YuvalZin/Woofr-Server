@@ -7,6 +7,10 @@ using System.Data;
 using System.Text;
 using woofr.Models;
 using System.Security.Cryptography;
+using System.Net;
+using System.Numerics;
+using System.Reflection.Metadata;
+using System.Data.Common;
 
 
 /// <summary>
@@ -1074,15 +1078,12 @@ public class DBservices
         paramDic.Add("@Address", p.Address);
         paramDic.Add("@Phone", p.Phone);
         paramDic.Add("@Description", p.Description);
-        paramDic.Add("@Ratings", p.RatingScore);
+        paramDic.Add("@Type", p.Type);
         paramDic.Add("@Availability24_7", p.Availability24_7);
         paramDic.Add("@SellsProducts", p.SellsProducts);
         paramDic.Add("@ToHome", p.ToHome);
         paramDic.Add("@Notes", p.Notes);
-        paramDic.Add("@VerificationStatus", p.VerificationStatus);
-        paramDic.Add("@ActiveWoofr", p.ActiveWoofr);
         paramDic.Add("@UserId", p.UserId);
-        paramDic.Add("@Type", p.Type);
 
         cmd = CreateCommandWithStoredProcedure("PRO_RegisterProfessional", con, paramDic);  // create the command
 
@@ -1125,7 +1126,6 @@ public class DBservices
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
 
-
         // Add parameters
         paramDic.Add("@Id", p.Id);
         paramDic.Add("@DisplayName", p.DisplayName);
@@ -1133,15 +1133,12 @@ public class DBservices
         paramDic.Add("@Address", p.Address);
         paramDic.Add("@Phone", p.Phone);
         paramDic.Add("@Description", p.Description);
-           paramDic.Add("@Ratings", p.RatingScore);
-           paramDic.Add("@Availability24_7", p.Availability24_7);
-           paramDic.Add("@SellsProducts", p.SellsProducts);
-           paramDic.Add("@ToHome", p.ToHome);
-           paramDic.Add("@Notes", p.Notes);
-           paramDic.Add("@VerificationStatus", p.VerificationStatus);
-           paramDic.Add("@ActiveWoofr", p.ActiveWoofr);
-           paramDic.Add("@UserId", p.UserId);
-           paramDic.Add("@Type", p.Type);
+        paramDic.Add("@Type", p.Type);
+        paramDic.Add("@Availability24_7", p.Availability24_7);
+        paramDic.Add("@SellsProducts", p.SellsProducts);
+        paramDic.Add("@ToHome", p.ToHome);
+        paramDic.Add("@Notes", p.Notes);
+        paramDic.Add("@UserId", p.UserId);
 
         cmd = CreateCommandWithStoredProcedure("PRO_UpdateProfessionalById", con, paramDic);  // create the command
 

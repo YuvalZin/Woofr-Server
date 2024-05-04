@@ -964,19 +964,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\benyy\\.nuget\\packages\\": {}
+    "C:\\Users\\zindani\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\woofr.csproj",
+      "projectUniqueName": "C:\\Program Files (x86)\\GitHub\\Woofr-Server\\woofr.csproj",
       "projectName": "woofr",
-      "projectPath": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\woofr.csproj",
-      "packagesPath": "C:\\Users\\benyy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\benyy\\OneDrive\\Documents\\code\\Woofr-Server\\obj\\",
+      "projectPath": "C:\\Program Files (x86)\\GitHub\\Woofr-Server\\woofr.csproj",
+      "packagesPath": "C:\\Users\\zindani\\.nuget\\packages\\",
+      "outputPath": "C:\\Program Files (x86)\\GitHub\\Woofr-Server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\benyy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\zindani\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -996,11 +996,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -1039,7 +1034,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   },

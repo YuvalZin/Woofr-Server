@@ -9,13 +9,6 @@ namespace woofr.Controllers
     [ApiController]
     public class ChatsController : ControllerBase
     {
-        // GET: api/<ChatsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
         // GET api/<ChatsController>/5
         [HttpGet]
         [Route("GetUsersChat/{userId}")]
@@ -29,14 +22,6 @@ namespace woofr.Controllers
             {
                 return StatusCode(500, e.Message);
             }
-        }
-
-
-        // GET api/<ChatsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
         }
 
         // POST api/<ChatsController>

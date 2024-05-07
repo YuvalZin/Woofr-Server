@@ -23,7 +23,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseCors("AllowAnyOrigin"); // Apply CORS middleware before any other middleware
 
-if (app.Environment.IsDevelopment())
+if (true)
 {
     app.UseSwagger();
     app.UseSwaggerUI();

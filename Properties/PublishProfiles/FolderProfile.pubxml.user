@@ -4,7 +4,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
-    <_PublishTargetUrl>C:\Users\Nevo Avisar\source\repos\woofr\woofr\bin\Release\net6.0\publish\</_PublishTargetUrl>
-    <History>True|2024-04-14T17:38:15.4379951Z;</History>
+    <_PublishTargetUrl>C:\Users\Nevo Avisar\WoofrServer\Woofr-Server\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2024-05-06T16:52:11.3392689Z;True|2024-05-06T19:51:53.5241522+03:00;True|2024-05-06T19:47:22.6366959+03:00;True|2024-05-06T13:45:06.3632319+03:00;True|2024-04-14T20:38:15.4379951+03:00;</History>
   </PropertyGroup>
 </Project>

@@ -8,20 +8,6 @@ namespace woofr.Controllers
     [ApiController]
     public class WoofsController : ControllerBase
     {
-        // GET: api/<WoofsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<WoofsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // GET api/<WoofsController>/5
         [HttpGet]
         [Route("GetUserPosts/{userId}")]

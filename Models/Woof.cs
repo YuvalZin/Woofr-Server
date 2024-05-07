@@ -29,6 +29,7 @@
             if (rowsAff > 0) return true;
             throw new Exception("Error taging post");
         }
+
          static public bool Delete(string id)
         {
             DBservices dbs = new DBservices();

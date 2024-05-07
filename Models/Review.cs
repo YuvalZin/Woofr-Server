@@ -31,5 +31,13 @@
             if (rowsAff > 0) return true;
             throw new Exception("Error inserting review");
         }
+        static public bool Delete(string id)
+        {
+            DBservices dbs = new DBservices();
+            int rowsAff = dbs.DeleteReview(id);
+            if (rowsAff > 0) return true;
+            throw new Exception("Error delete post");
+        }
+
     }
 }

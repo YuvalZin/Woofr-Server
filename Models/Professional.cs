@@ -73,6 +73,13 @@
             if (result == null) throw new Exception("Error get professional for home page data");
             else return result;
         }
+        static public bool Delete(string id)
+        {
+            DBservices dbs = new DBservices();
+            int rowsAff = dbs.DeleteProfessional(id);
+            if (rowsAff > 0) return true;
+            throw new Exception("Error delete post");
+        }
 
 
     }

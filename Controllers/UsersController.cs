@@ -9,12 +9,6 @@ namespace woofr.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        // GET: api/<UsersController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
         // GET: api/<UsersController>
         [HttpGet]
@@ -110,14 +104,6 @@ namespace woofr.Controllers
             }
         }
 
-        // GET api/<UsersController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-        
-
         // POST api/<UsersController>
         [HttpPost]
         public ActionResult Post([FromBody] User u)
@@ -194,22 +180,7 @@ namespace woofr.Controllers
                 return StatusCode(500, e.Message);
             }
         } 
-        
-        //// PUT api/<UsersController>/5
-        //[HttpPut("UpdateUserBio/{token}")]
-        //public ActionResult UpdateUserBio([FromBody] string bio,string token)
-        //{
-        //    try
-        //    {
-        //        User u = new();
-        //        return Ok(u.UpdateUserBio(bio,token));
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return StatusCode(500, e.Message);
-        //    }
-        //}
-         // PUT api/<UsersController>/5
+
         [HttpDelete("DeleteProfile/{token}")]
         public ActionResult DeleteProfile(string token)
         {

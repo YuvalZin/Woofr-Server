@@ -9,13 +9,7 @@ namespace woofr.Controllers
     [ApiController]
     public class ProfessionalsController : ControllerBase
     {
-        // GET: api/<ProfessionalsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
+        
         // POST api/<ProfessionalsController>
         [HttpPost]
         [Route("GetVerifiedProfessionals")]
@@ -36,10 +30,9 @@ namespace woofr.Controllers
         [Route("GetProffesionalsForHomePage")]
         public ActionResult GetProffesionalsForHomePage()
         {
-            Professional p = new Professional();
             try
             {
-                return Ok(p.GetProfessionals());
+                return Ok(Professional.GetProfessionalsHomePage());
             }
             catch (Exception e)
             {
@@ -60,13 +53,6 @@ namespace woofr.Controllers
                 return StatusCode(500, e.Message);
             }
 
-        }
-
-        
-        // POST api/<ProfessionalsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
         }
        
         // POST api/<ProfessionalsController>
@@ -101,11 +87,20 @@ namespace woofr.Controllers
             }
         }
 
-            // DELETE api/<ProfessionalsController>/5
-            [HttpDelete("{id}")]
-            public void Delete(int id)
+        // DELETE api/<ProfessionalsController>/5
+        [HttpDelete("{token}")]
+        public ActionResult Delete(string token)
+        {
+            try
             {
+                return Ok(Professional.Delete(token));
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
             }
         }
+    }
     }
 

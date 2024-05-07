@@ -1163,6 +1163,53 @@ public class DBservices
             }
         }
     }
+    public int DeleteProfessional(string token)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+        paramDic.Add("@Token", token);
+
+        cmd = CreateCommandWithStoredProcedure("PRO_DeleteProfessionalProfileByToken", con, paramDic);  // create the command
+
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                                                     //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+            return (numEffected);
+
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
 
     // -----------REVIEWS----------//
     public List<Review> GetReviewsByProUserId(string id)
@@ -1271,6 +1318,51 @@ public class DBservices
         }
 
     }
+    public int DeleteReview(string id)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+        paramDic.Add("@ReviewId", id);
+
+        cmd = CreateCommandWithStoredProcedure("REVIEW_DeleteReviewById", con, paramDic);  // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
 
     //--------------------------------------------------------------------------------------------------
     //----------CHAT & MESSAGES METHODES

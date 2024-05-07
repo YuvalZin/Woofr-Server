@@ -9,12 +9,6 @@ namespace woofr.Controllers
     [ApiController]
     public class MessagesController : ControllerBase
     {
-        // GET: api/<MessagesController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
         // GET api/<MessagesController>/5
         [HttpGet]
@@ -31,18 +25,6 @@ namespace woofr.Controllers
             }
         }
 
-        // GET api/<MessagesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<MessagesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
 
         // POST api/<MessagesController>
         [HttpPost]

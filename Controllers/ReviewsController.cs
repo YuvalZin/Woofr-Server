@@ -8,12 +8,6 @@ namespace woofr.Controllers
     [ApiController]
     public class ReviewsController : ControllerBase
     {
-        // GET: api/<ReviewsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
         // GET api/<ReviewsController>/5
         [HttpGet("{id}")]
@@ -29,11 +23,6 @@ namespace woofr.Controllers
             }
         }
 
-        // POST api/<ReviewsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
 
         // POST api/<WoofsController>
         [HttpPost]
@@ -59,8 +48,17 @@ namespace woofr.Controllers
 
         // DELETE api/<ReviewsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(string id)
         {
+            try
+            {
+                return Ok(Review.Delete(id));
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }
